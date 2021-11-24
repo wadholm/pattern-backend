@@ -9,13 +9,14 @@ const db = {
             dsn = "mongodb://localhost:27017/test";
         } else {
             // MongoDB Atlas
-            dsn = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PW}` +
+            dsn = `
+            mongodb+srv://${process.env.DB_USER}:${process.env.DB_PW}` +
             `@${process.env.DB_CLUSTER}.jr7l8.mongodb.net/${process.env.DB_NAME}` +
             `?retryWrites=true&w=majority`;
         }
 
         // Connect Mongoose
-        const client = await mongoose.connect(
+        mongoose.connect(
             dsn,
             {
                 useNewUrlParser: true,
@@ -23,9 +24,15 @@ const db = {
             }
         );
 
+        const db = mongoose.connection;
+
+        db.on("error", console.error.bind(console, "connection error: "));
+        db.once("open", function () {
+            console.log("Connected successfully");
+        });
 
         return {
-            client: client,
+            db: db,
         };
     }
 };

@@ -9,6 +9,7 @@ require('dotenv').config();
 const app = express();
 
 //Routes
+const index = require('./api/routes/index');
 const auth = require('./api/routes/auth');
 const users = require('./api/routes/users');
 
@@ -35,29 +36,35 @@ app.use((req, res, next) => {
 
 
 // Add routes
+app.use('/', index);
 app.use('/auth', auth);
 app.use('/users', users);
 
-// // Start up server
-// app.listen(port, () => console.log(`Pattern API listening on port ${port}!`));
-
 // Connect Mongoose
+let dsn;
 
-const uri = `
+// Test db
+if (process.env.NODE_ENV === 'test') {
+    dsn = "mongodb://localhost:27017/testdb";
+} else {
+    // MongoDB Atlas
+    dsn = `
     mongodb+srv://${process.env.DB_USER}:${process.env.DB_PW}` +
     `@${process.env.DB_CLUSTER}.jr7l8.mongodb.net/${process.env.DB_NAME}` +
     `?retryWrites=true&w=majority`;
+}
 
 mongoose.connect(
-    uri,
+    dsn,
     {
         useNewUrlParser: true,
         useUnifiedTopology: true,
     }
 )
+// Start up server
     .then(() => {
-        app.listen(port, function () {
-            console.log(`Pattern API listening on port ${port}!`);
+        app.listen(port, () => {
+            console.log(`Pattern API with Mongoose listening on port ${port}!`);
         });
     })
     .catch((err) => {
@@ -87,3 +94,6 @@ app.use((err, req, res, next) => {
         ]
     });
 });
+
+
+exports.app = app;

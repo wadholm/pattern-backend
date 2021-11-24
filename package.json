@@ -4,7 +4,7 @@
   "description": "api for pattern project",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "nyc --reporter=html --reporter=text --reporter=clover mocha --exit --timeout 10000",
     "posttest": "npm run eslint",
     "start": "node app.js",
     "watch": "nodemon app.js",
@@ -22,8 +22,11 @@
     "morgan": "^1.10.0"
   },
   "devDependencies": {
+    "chai": "^4.3.4",
+    "chai-http": "^4.3.0",
     "eslint": "^8.3.0",
     "eslint-plugin-react": "^7.27.1",
-    "javascript-style-guide": "^1.0.1"
+    "javascript-style-guide": "^1.0.1",
+    "mocha": "^9.1.3"
   }
 }

@@ -1,4 +1,6 @@
 # pattern API
+[![Build Status](https://app.travis-ci.com/wadholm/pattern-backend.svg?branch=main)](https://app.travis-ci.com/wadholm/pattern-backend)
+
 
 This API is built as a part of the course pattern at BTH.
 
