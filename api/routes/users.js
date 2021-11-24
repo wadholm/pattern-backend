@@ -69,7 +69,12 @@ router.post('/',
     (req, res) => {
         const user = new User({
             _id: new mongoose.Types.ObjectId(),
-            name: req.body.name,
+            name: [req.body.firstName, req.body.lastName],
+            email: req.body.email,
+            password: req.body.password,
+            phone: req.body.phone,
+            payment_method: "unknown",
+            card_information: "unknown",
             balance: 0,
             account_status: "active"
         });
