@@ -1,118 +1,26 @@
 var express = require('express');
 var router = express.Router();
-const mongoose = require("mongoose");
+const checkAuth = require("../middleware/check-auth");
 
-const User = require("../models/user");
+const UsersController = require("../controllers/users");
 
-router.get('/', function(req, res) {
-    User.find()
-        .exec()
-        .then(docs => {
-            console.log(docs);
-            res.status(200).json(docs);
-        })
-        .catch(err => {
-            console.log(err);
-            res.status(500).json({
-                error: err
-            });
-        });
-});
+// get all users
+router.get('/', checkAuth, UsersController.users_get_all);
 
-router.get('/:userId', function(req, res) {
-    const id = req.params.userId;
+// get user by id
+router.get('/:userId', UsersController.users_get_user);
 
-    User.findById(id)
-        .exec()
-        .then(doc => {
-            console.log(doc);
-            if (doc) {
-                res.status(200).json(doc);
-            } else {
-                res.status(404).json({
-                    message: "No valid entry found for provided ID."
-                });
-            }
-        })
-        .catch(err => {
-            console.log(err);
-            res.status(500).json({
-                error: err
-            });
-        });
-});
+// register user
+router.post('/register', UsersController.users_register);
 
-router.patch('/:userId', function(req, res) {
-    const id = req.params.userId;
-    const updateOps = {};
+// login user
+router.post('/login', UsersController.users_login);
 
-    for (const ops of req.body) {
-        updateOps[ops.propName] = ops.value;
-    }
+// update user by id
+router.patch('/:userId', UsersController.users_update_user);
 
-    User.update({ _id: id }, { $set: updateOps })
-        .exec()
-        .then(result => {
-            console.log(result);
-            res.status(200).json(result);
-        })
-        .catch(err => {
-            console.log(err);
-            res.status(500).json({
-                error: err
-            });
-        });
-});
-
-
-router.post('/',
-    (req, res) => {
-        const user = new User({
-            _id: new mongoose.Types.ObjectId(),
-            name: [req.body.firstName, req.body.lastName],
-            email: req.body.email,
-            password: req.body.password,
-            phone: req.body.phone,
-            payment_method: "unknown",
-            card_information: "unknown",
-            balance: 0,
-            account_status: "active"
-        });
-
-        user.save()
-            .then(result => {
-                console.log(result);
-                res.status(201).json({
-                    message: "Succesfully created a user",
-                    createdUser: result
-                });
-            })
-            .catch(err => {
-                console.log(err);
-                res.status(500).json({
-                    error: err
-                });
-            });
-    }
-);
-
-router.delete('/:userId', function(req, res) {
-    const id = req.params.userId;
-
-    User.remove({ _id: id })
-        .exec()
-        .then(result => {
-            res.status(200).json(result);
-        })
-        .catch(err => {
-            console.log(err);
-            res.status(500).json({
-                error: err
-            });
-        });
-});
-
-
+// only for testing, change to soft delete
+router.delete('/:userId', UsersController.users_delete_user);
 
 
 module.exports = router;

@@ -4,7 +4,7 @@ var router = express.Router();
 router.get("/", (req, res) => {
     const data = {
         data: {
-            msg: "This is the index page"
+            msg: "To access API, registration and login is required for all requests."
         }
     };
 

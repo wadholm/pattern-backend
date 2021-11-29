@@ -10,8 +10,9 @@ const app = express();
 
 //Routes
 const index = require('./api/routes/index');
-const auth = require('./api/routes/auth');
+const api = require('./api/routes/api_users');
 const users = require('./api/routes/users');
+const admins = require('./api/routes/admins');
 
 const port = 1337;
 
@@ -37,8 +38,9 @@ app.use((req, res, next) => {
 
 // Add routes
 app.use('/', index);
-app.use('/auth', auth);
+app.use('/api', api);
 app.use('/users', users);
+app.use('/admins', admins);
 
 // Connect Mongoose
 let dsn;
