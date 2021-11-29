@@ -143,7 +143,7 @@ exports.admins_update_admin = (req, res) => {
         updateOps[ops.propName] = ops.value;
     }
 
-    Admin.update({ _id: id }, { $set: updateOps })
+    Admin.updateOne({ _id: id }, { $set: updateOps })
         .exec()
         .then(() => {
             res.status(200).json({

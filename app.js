@@ -13,6 +13,7 @@ const index = require('./api/routes/index');
 const api = require('./api/routes/api_users');
 const users = require('./api/routes/users');
 const admins = require('./api/routes/admins');
+const cities = require('./api/routes/cities');
 
 const port = 1337;
 
@@ -41,6 +42,7 @@ app.use('/', index);
 app.use('/api', api);
 app.use('/users', users);
 app.use('/admins', admins);
+app.use('/cities', cities);
 
 // Connect Mongoose
 let dsn;

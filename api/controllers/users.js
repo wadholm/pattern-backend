@@ -157,7 +157,7 @@ exports.users_update_user = (req, res) => {
         updateOps[ops.propName] = ops.value;
     }
 
-    User.update({ _id: id }, { $set: updateOps })
+    User.updateOne({ _id: id }, { $set: updateOps })
         .exec()
         .then(() => {
             res.status(200).json({
