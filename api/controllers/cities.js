@@ -50,11 +50,11 @@ exports.cities_add_city = (req, res) => {
     const city = new City({
         _id: new mongoose.Types.ObjectId(),
         name: req.body.name,
-        coordinates: req.body.coordinates,
-        charge_stations: [{
-            _id: new mongoose.Types.ObjectId(),
-            coordinates: { northwest: "x", southeast: "y" }
-        }],
+        coordinates: {
+            northwest: {lat: req.body.nwlat, long: req.body.nwlong},
+            southeast: {lat: req.body.selat, long: req.body.selong}
+        },
+        charge_stations: req.body.charge_stations,
         parking_stations: req.body.parking_stations
     });
 
@@ -112,7 +112,9 @@ exports.cities_add_station = (req, res) => {
             }
             doc[station].push({
                 _id: new mongoose.Types.ObjectId(),
-                coordinates: { northwest: req.body.nw, southeast: req.body.se }
+                coordinates: {
+                    northwest: {lat: req.body.nwlat, long: req.body.nwlong},
+                    southeast: {lat: req.body.selat, long: req.body.selong}}
             });
             doc.save()
                 .then(result => {
@@ -145,7 +147,10 @@ exports.cities_update_station = async (req, res) => {
         .then((doc) => {
             const currentStation = doc[station].id(stationId);
 
-            currentStation.coordinates = { northwest: req.body.nw, southeast: req.body.se };
+            currentStation.coordinates = {
+                northwest: {lat: req.body.nwlat, long: req.body.nwlong},
+                southeast: {lat: req.body.selat, long: req.body.selong}
+            };
 
             return doc.save();
         })

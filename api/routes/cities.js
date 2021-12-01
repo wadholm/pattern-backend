@@ -5,7 +5,7 @@ const checkAuth = require("../middleware/check-auth");
 const CitiesController = require("../controllers/cities");
 
 // get all cities
-router.get('/', checkAuth, CitiesController.cities_get_all);
+router.get('/', CitiesController.cities_get_all);
 
 // get city by id
 router.get('/:cityId', CitiesController.cities_get_city);
@@ -23,7 +23,7 @@ router.post('/:cityId', CitiesController.cities_add_station);
 router.patch('/station/:stationId', CitiesController.cities_update_station);
 
 // only for testing, change to soft delete
-router.delete('/:cityId', CitiesController.cities_delete_city);
+router.delete('/:cityId', checkAuth, CitiesController.cities_delete_city);
 
 
 module.exports = router;
