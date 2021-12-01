@@ -30,3 +30,9 @@ npm run production
 ```
 
 Runs the app in the production mode.  
+
+```
+npm run test
+```
+
+Runs the apps test suite.  
