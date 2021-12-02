@@ -10,6 +10,12 @@ router.get('/', CitiesController.cities_get_all);
 // get city by id
 router.get('/:cityId', CitiesController.cities_get_city);
 
+// get all stations by city
+router.get('/stations/:cityId', CitiesController.cities_get_stations);
+
+// get station by id
+router.get('/station/:stationId', CitiesController.cities_get_station);
+
 // add city
 router.post('/', CitiesController.cities_add_city);
 

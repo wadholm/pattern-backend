@@ -46,14 +46,73 @@ exports.cities_get_city = (req, res) => {
         });
 };
 
+exports.cities_get_stations = (req, res) => {
+    const id = req.params.cityId;
+
+    let select;
+
+    switch (req.body.station_type) {
+        case "charge_stations":
+            select = "charge_stations -_id";
+            break;
+        case "parking_stations":
+            select = "parking_stations -_id";
+            break;
+        default:
+            select = "parking_stations charge_stations -_id";
+    }
+
+    City.findById(id)
+        .select(select)
+        .exec()
+        .then(doc => {
+            if (doc) {
+                return res.status(200).json({
+                    stations: doc
+                });
+            }
+            res.status(404).json({
+                message: "No valid entry found for provided ID."
+            });
+        })
+        .catch(err => {
+            console.error(err);
+            res.status(500).json({
+                error: err
+            });
+        });
+};
+
+exports.cities_get_station = (req, res) => {
+    const id = req.params.stationId;
+    const cityId = req.body.city_id;
+    const station = req.body.station_type;
+
+    City.findById(cityId)
+        .exec()
+        .then(doc => {
+            if (doc) {
+                return res.status(200).json({
+                    station: doc[station].id(id)
+                });
+            }
+            res.status(404).json({
+                message: "No valid entry found for provided ID."
+            });
+        })
+        .catch(err => {
+            console.error(err);
+            res.status(500).json({
+                error: err
+            });
+        });
+};
+
 exports.cities_add_city = (req, res) => {
     const city = new City({
         _id: new mongoose.Types.ObjectId(),
         name: req.body.name,
-        coordinates: {
-            northwest: {lat: req.body.nwlat, long: req.body.nwlong},
-            southeast: {lat: req.body.selat, long: req.body.selong}
-        },
+        coordinates: req.body.coordinates,
         charge_stations: req.body.charge_stations,
         parking_stations: req.body.parking_stations
     });
@@ -111,9 +170,7 @@ exports.cities_add_station = (req, res) => {
             }
             doc[station].push({
                 _id: new mongoose.Types.ObjectId(),
-                coordinates: {
-                    northwest: {lat: req.body.nwlat, long: req.body.nwlong},
-                    southeast: {lat: req.body.selat, long: req.body.selong}}
+                coordinates: req.body.coordinates
             });
             doc.save()
                 .then(result => {
@@ -146,10 +203,7 @@ exports.cities_update_station = async (req, res) => {
         .then((doc) => {
             const currentStation = doc[station].id(stationId);
 
-            currentStation.coordinates = {
-                northwest: {lat: req.body.nwlat, long: req.body.nwlong},
-                southeast: {lat: req.body.selat, long: req.body.selong}
-            };
+            currentStation.coordinates = req.body.coordinates;
 
             return doc.save();
         })
