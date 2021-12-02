@@ -33,4 +33,8 @@ const citySchema = mongoose.Schema({
     parking_stations: [stationSchema]
 });
 
-module.exports = mongoose.model("City", citySchema);
+
+const City = mongoose.model("City", citySchema);
+const Station = mongoose.model("Station", stationSchema);
+
+module.exports = { City, Station };

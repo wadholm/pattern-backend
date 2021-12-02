@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const City = require("../models/city");
+const { City } = require("../models/city");
 
 exports.cities_get_all = (req, res) => {
     City.find()
@@ -31,7 +31,7 @@ exports.cities_get_city = (req, res) => {
         .then(doc => {
             if (doc) {
                 return res.status(200).json({
-                    user: doc
+                    city: doc
                 });
             }
             res.status(404).json({
@@ -60,14 +60,13 @@ exports.cities_add_city = (req, res) => {
 
     city.save()
         .then(result => {
-            console.log(result);
             res.status(201).json({
                 message: "Succesfully added a city",
                 addedCity: result
             });
         })
         .catch(err => {
-            console.log(err);
+            console.error(err);
             res.status(500).json({
                 error: err
             });
@@ -124,7 +123,7 @@ exports.cities_add_station = (req, res) => {
                     });
                 })
                 .catch(err => {
-                    console.log(err);
+                    console.error(err);
                     return res.status(500).json({
                         error: err
                     });
@@ -159,7 +158,12 @@ exports.cities_update_station = async (req, res) => {
                 message: "Station succesfully updated"
             });
         })
-        .catch(e => res.status(400).send(e));
+        .catch(err => {
+            console.error(err);
+            res.status(500).json({
+                error: err
+            });
+        });
 };
 
 
