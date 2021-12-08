@@ -184,61 +184,61 @@ exports.bikes_update_bike = (req, res) => {
 //         });
 // };
 
-exports.bikes_set_maintanance = (req, res) => {
-    const id = req.params.bikeId;
-    const action = req.body.action;
-    let updateDoc;
+// exports.bikes_set_maintanance = (req, res) => {
+//     const id = req.params.bikeId;
+//     const action = req.body.action;
+//     let updateDoc;
 
-    if (action === "set") {
-        updateDoc = {
-            $set: {
-                bike_status: "unavailable",
-                maintanance: true
-            }
-        };
-    } else {
-        updateDoc = {
-            $set: {
-                bike_status: "available",
-                battery_status: 100,
-                maintanance: false
-            }
-        };
-    }
+//     if (action === "set") {
+//         updateDoc = {
+//             $set: {
+//                 bike_status: "unavailable",
+//                 maintanance: true
+//             }
+//         };
+//     } else {
+//         updateDoc = {
+//             $set: {
+//                 bike_status: "available",
+//                 battery_status: 100,
+//                 maintanance: false
+//             }
+//         };
+//     }
 
-    Bike.updateOne({ _id: id }, updateDoc)
-        .exec()
-        .then(() => {
-            res.status(200).json({
-                message: "Maintanance succesfully updated"
-            });
-        })
-        .catch(err => {
-            console.error(err);
-            res.status(500).json({
-                error: err
-            });
-        });
-};
+//     Bike.updateOne({ _id: id }, updateDoc)
+//         .exec()
+//         .then(() => {
+//             res.status(200).json({
+//                 message: "Maintanance succesfully updated"
+//             });
+//         })
+//         .catch(err => {
+//             console.error(err);
+//             res.status(500).json({
+//                 error: err
+//             });
+//         });
+// };
 
-exports.bikes_unset_maintanance = (req, res) => {
-    const id = req.params.bikeId;
+// exports.bikes_unset_maintanance = (req, res) => {
+//     const id = req.params.bikeId;
 
-    Bike.updateOne({ _id: id },
-        { $set: { bike_status: "available", battery_status: 100, maintanance: false } })
-        .exec()
-        .then(() => {
-            res.status(200).json({
-                message: "Bike succesfully set for maintanance"
-            });
-        })
-        .catch(err => {
-            console.error(err);
-            res.status(500).json({
-                error: err
-            });
-        });
-};
+//     Bike.updateOne({ _id: id },
+//         { $set: { bike_status: "available", battery_status: 100, maintanance: false } })
+//         .exec()
+//         .then(() => {
+//             res.status(200).json({
+//                 message: "Bike succesfully set for maintanance"
+//             });
+//         })
+//         .catch(err => {
+//             console.error(err);
+//             res.status(500).json({
+//                 error: err
+//             });
+//         });
+// };
 
 
 exports.bikes_delete_bike = (req, res) => {
