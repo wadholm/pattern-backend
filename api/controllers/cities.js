@@ -170,6 +170,7 @@ exports.cities_add_station = (req, res) => {
             }
             doc[station].push({
                 _id: new mongoose.Types.ObjectId(),
+                name: req.body.name,
                 coordinates: req.body.coordinates
             });
             doc.save()

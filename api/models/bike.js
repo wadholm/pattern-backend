@@ -11,9 +11,9 @@ const bikeSchema = mongoose.Schema({
     city_id: { type: mongoose.Schema.Types.ObjectId, ref: "City", require: true},
     charge_id: { type: mongoose.Schema.Types.ObjectId, ref: "Station", default: null},
     parking_id: { type: mongoose.Schema.Types.ObjectId, ref: "Station", default: null},
-    bike_status: { type: String, default: "unknown" },
-    battery_status: { type: String, default: "unknown" },
-    maintanance: { type: Date },
+    bike_status: { type: String, default: "available" },
+    battery_status: { type: Number, default: 100 },
+    maintenance: { type: Boolean, default: false },
     coordinates: { type: latLongSchema },
 });
 

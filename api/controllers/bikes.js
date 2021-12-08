@@ -103,19 +103,114 @@ exports.bikes_add_bike = (req, res) => {
         });
 };
 
+
+function chargeBike(id) {
+    let updateDoc = { bike_status: "available", battery_status: 100};
+
+    Bike.updateOne({ _id: id }, { $set: updateDoc })
+        .exec()
+        .then(() => {
+            console.info("Bike fully charged");
+        })
+        .catch(err => {
+            console.error(err);
+        });
+}
+
 exports.bikes_update_bike = (req, res) => {
     const id = req.params.bikeId;
     const updateOps = {};
 
-    for (const ops of req.body) {
-        updateOps[ops.propName] = ops.value;
+    Bike.findById(id)
+        .select("-__v")
+        .exec()
+        .then(doc => {
+            for (const ops of req.body) {
+                updateOps[ops.propName] = ops.value;
+            }
+
+            if (doc.charge_id && doc.battery_status < 20) {
+                //charge battery
+                updateOps["bike_status"] = "unavailable";
+                // setTimout
+                setTimeout(function() {
+                    chargeBike(id);
+                }, 60000);
+                // testing with 60 000 miliseconds = 1 minute,for prod 10 minutes
+            }
+
+            Bike.updateOne({ _id: id }, { $set: updateOps })
+                .exec()
+                .then(() => {
+                    res.status(200).json({
+                        message: "Bike succesfully updated"
+                    });
+                })
+                .catch(err => {
+                    console.error(err);
+                    res.status(500).json({
+                        error: err
+                    });
+                });
+        })
+        .catch(err => {
+            console.error(err);
+            res.status(500).json({
+                error: err
+            });
+        });
+};
+
+// exports.bikes_update_bike = (req, res) => {
+//     const id = req.params.bikeId;
+//     const updateOps = {};
+
+//     for (const ops of req.body) {
+//         updateOps[ops.propName] = ops.value;
+//     }
+
+//     Bike.updateOne({ _id: id }, { $set: updateOps })
+//         .exec()
+//         .then(() => {
+//             res.status(200).json({
+//                 message: "Bike succesfully updated"
+//             });
+//         })
+//         .catch(err => {
+//             console.error(err);
+//             res.status(500).json({
+//                 error: err
+//             });
+//         });
+// };
+
+exports.bikes_set_maintanance = (req, res) => {
+    const id = req.params.bikeId;
+    const action = req.body.action;
+    let updateDoc;
+
+    if (action === "set") {
+        updateDoc = {
+            $set: {
+                bike_status: "unavailable",
+                maintanance: true
+            }
+        };
+    } else {
+        updateDoc = {
+            $set: {
+                bike_status: "available",
+                battery_status: 100,
+                maintanance: false
+            }
+        };
     }
 
-    Bike.updateOne({ _id: id }, { $set: updateOps })
+    Bike.updateOne({ _id: id }, updateDoc)
         .exec()
         .then(() => {
             res.status(200).json({
-                message: "Bike succesfully updated"
+                message: "Maintanance succesfully updated"
             });
         })
         .catch(err => {
@@ -126,14 +221,15 @@ exports.bikes_update_bike = (req, res) => {
         });
 };
 
-exports.bikes_set_maintanance = (req, res) => {
+exports.bikes_unset_maintanance = (req, res) => {
     const id = req.params.bikeId;
 
-    Bike.updateOne({ _id: id }, { $set: { maintanance: new Date} })
+    Bike.updateOne({ _id: id },
+        { $set: { bike_status: "available", battery_status: 100, maintanance: false } })
         .exec()
         .then(() => {
             res.status(200).json({
-                message: "Timestamp set for maintanance"
+                message: "Bike succesfully set for maintanance"
             });
         })
         .catch(err => {
