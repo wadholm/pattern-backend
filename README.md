@@ -13,6 +13,7 @@ lastname
 email
 password
 phone
+city
 payment_method
 card_information
 balance
