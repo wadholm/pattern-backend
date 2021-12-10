@@ -107,10 +107,21 @@ exports.bikes_add_bike = (req, res) => {
 function chargeBike(id) {
     let updateDoc = { bike_status: "available", battery_status: 100};
 
-    Bike.updateOne({ _id: id }, { $set: updateDoc })
+    Bike.findById(id)
+        .select("-__v")
         .exec()
-        .then(() => {
-            console.info("Bike fully charged");
+        .then(doc => {
+            if (doc.maintenance) {
+                updateDoc.bike_status = "unavailable";
+            }
+            Bike.updateOne({ _id: id }, { $set: updateDoc })
+                .exec()
+                .then(() => {
+                    console.info("Bike fully charged");
+                })
+                .catch(err => {
+                    console.error(err);
+                });
         })
         .catch(err => {
             console.error(err);
@@ -127,16 +138,19 @@ exports.bikes_update_bike = (req, res) => {
         .then(doc => {
             for (const ops of req.body) {
                 updateOps[ops.propName] = ops.value;
-            }
-
-            if (doc.charge_id && doc.battery_status < 20) {
-                //charge battery
-                updateOps["bike_status"] = "unavailable";
-                // setTimout
-                setTimeout(function() {
-                    chargeBike(id);
-                }, 60000);
-                // testing with 60 000 miliseconds = 1 minute,for prod 10 minutes
+                if (
+                    ops.propName === "charge_id" &&
+                    ops.value &&
+                    doc.battery_status < 20
+                ) {
+                    //charge battery
+                    updateOps["bike_status"] = "unavailable";
+                    // setTimout
+                    setTimeout(function() {
+                        chargeBike(id);
+                    }, 60000);
+                    // testing with 60 000 miliseconds = 1 minute,for prod 10 minutes
+                }
             }
 
             Bike.updateOne({ _id: id }, { $set: updateOps })
@@ -184,42 +198,43 @@ exports.bikes_update_bike = (req, res) => {
 //         });
 // };
 
-// exports.bikes_set_maintanance = (req, res) => {
-//     const id = req.params.bikeId;
-//     const action = req.body.action;
-//     let updateDoc;
+exports.bikes_maintenance = (req, res) => {
+    const id = req.params.bikeId;
+    const maintenance = req.body.maintenance;
+    let updateDoc;
 
-//     if (action === "set") {
-//         updateDoc = {
-//             $set: {
-//                 bike_status: "unavailable",
-//                 maintanance: true
-//             }
-//         };
-//     } else {
-//         updateDoc = {
-//             $set: {
-//                 bike_status: "available",
-//                 battery_status: 100,
-//                 maintanance: false
-//             }
-//         };
-//     }
+    let changes = {
+        bike_status: "available",
+        battery_status: 100,
+        maintenance: false
+    };
 
-//     Bike.updateOne({ _id: id }, updateDoc)
-//         .exec()
-//         .then(() => {
-//             res.status(200).json({
-//                 message: "Maintanance succesfully updated"
-//             });
-//         })
-//         .catch(err => {
-//             console.error(err);
-//             res.status(500).json({
-//                 error: err
-//             });
-//         });
-// };
+    if (maintenance) {
+        changes = {
+            bike_status: "unavailable",
+            charge_id: req.body.charge_id,
+            maintenance: true
+        };
+    }
+
+    updateDoc = {
+        $set: changes
+    };
+
+    Bike.updateOne({ _id: id }, updateDoc)
+        .exec()
+        .then(() => {
+            res.status(200).json({
+                message: "Maintenance succesfully updated"
+            });
+        })
+        .catch(err => {
+            console.error(err);
+            res.status(500).json({
+                error: err
+            });
+        });
+};
 
 // exports.bikes_unset_maintanance = (req, res) => {
 //     const id = req.params.bikeId;

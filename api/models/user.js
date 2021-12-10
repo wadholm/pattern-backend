@@ -13,6 +13,7 @@ const userSchema = mongoose.Schema({
     },
     password: { type: String, required: true },
     phone: { type: String, default: "unknown"},
+    city_id: { type: mongoose.Schema.Types.ObjectId, ref: "City"},
     payment_method: { type: String, default: "unknown"},
     card_information: { type: String, default: "unknown"},
     balance: { type: Number, default: 0},

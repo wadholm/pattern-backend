@@ -19,8 +19,11 @@ router.post('/', BikesController.bikes_add_bike);
 // update bike by id
 router.patch('/:bikeId', BikesController.bikes_update_bike);
 
-// // set maintanance for bike by id
-// router.patch('/maintanance/:bikeId', BikesController.bikes_set_maintanance);
+// add bike
+router.put('/:bikeId', BikesController.bikes_add_bike);
+
+// maintenance for bike by id
+router.put('/maintenance/:bikeId', BikesController.bikes_maintenance);
 
 // only for testing, change to soft delete
 router.delete('/:bikeId', checkAuth, BikesController.bikes_delete_bike);
