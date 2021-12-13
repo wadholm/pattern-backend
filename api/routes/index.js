@@ -2,13 +2,14 @@ var express = require('express');
 var router = express.Router();
 
 router.get("/", (req, res) => {
-    const data = {
-        data: {
-            msg: "To access API, registration and login is required for all requests."
-        }
-    };
+    // const data = {
+    //     data: {
+    //         msg: "To access API, registration and login is required for all requests."
+    //     }
+    // };
 
-    res.json(data);
+    // res.json(data);
+    res.render("index");
 });
 
 module.exports = router;

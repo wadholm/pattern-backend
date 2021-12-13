@@ -52,6 +52,15 @@ exports.users_register = (req, res) => {
     User.find({ email: req.body.email })
         .exec()
         .then(user => {
+            if (!req.body.email || !req.body.password) {
+                return res.status(401).json({
+                    data: {
+                        title: "Email or password missing.",
+                        message: "Email or password missing."
+                    }
+                });
+            }
+
             if (user.length >= 1) {
                 return res.status(409).json({
                     message: "Email already exists"
@@ -65,8 +74,8 @@ exports.users_register = (req, res) => {
                 }
                 const user = new User({
                     _id: new mongoose.Types.ObjectId(),
-                    firstname: req.body.firstName,
-                    lastname: req.body.lastName,
+                    firstname: req.body.firstname,
+                    lastname: req.body.lastname,
                     email: req.body.email,
                     password: hash,
                     phone: req.body.phone,

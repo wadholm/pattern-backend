@@ -3,8 +3,13 @@ const cors = require("cors");
 const morgan = require("morgan");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
+const passport = require("passport");
 
 require('dotenv').config();
+
+require("./auth/google");
+require("./auth/github");
+require("./auth/facebook");
 
 const app = express();
 
@@ -17,6 +22,7 @@ const cities = require('./api/routes/cities');
 const prices = require('./api/routes/prices');
 const bikes = require('./api/routes/bikes');
 const trips = require('./api/routes/trips');
+const auth = require('./api/routes/auth');
 
 const port = 1337;
 
@@ -34,11 +40,13 @@ app.use(express.json());
 app.use(bodyParser.json()); // for parsing application/json
 app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
 
-// Middleware for all routes.
+// Initialize passport
+app.use(passport.initialize());
+
+// Middleware for all routes
 app.use((req, res, next) => {
     next();
 });
-
 
 // Add routes
 app.use('/', index);
@@ -49,6 +57,10 @@ app.use('/cities', cities);
 app.use('/prices', prices);
 app.use('/bikes', bikes);
 app.use('/trips', trips);
+app.use('/auth', auth);
+
+// set view engine for testing Oauth / manual for API?
+app.set('view engine', 'ejs');
 
 // Connect Mongoose
 let dsn;
