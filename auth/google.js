@@ -22,10 +22,18 @@ passport.use(
                     email: profile._json.email
                 }).save().then((newUser) => {
                     console.log("new user created: " + newUser);
-                    return done(null, newUser);
+                    done(null, newUser);
                 });
             }
-            return done(null, currentUser);
+            done(null, currentUser);
         });
     })
 );
+
+passport.serializeUser((user, done) => {
+    done(null, user);
+});
+
+passport.deserializeUser((user, done) => {
+    done(null, user);
+});

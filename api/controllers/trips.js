@@ -79,7 +79,7 @@ exports.trips_start_trip = (req, res) => {
         user_id: req.body.user_id,
         bike_id: req.body.bike_id,
         start_time: new Date,
-        start_coordinates: req.body.start_coordinates
+        start_coordinates: req.body.start_coordinates // get coordinates from bike position
     });
 
     trip.save()
@@ -126,10 +126,10 @@ exports.trips_end_trip = (req, res) => {
     Trip.updateOne({ _id: id },
         { $set: {
             stop_time: new Date,
-            stop_coordinates: req.body.stop_coordinates,
-            average_speed: req.body.average_speed,
-            distance: req.body.distance,
-            price: req.body.price
+            stop_coordinates: req.body.stop_coordinates, // get from bikes
+            average_speed: req.body.average_speed, // ta bort
+            distance: req.body.distance, // bike solves
+            price: req.body.price // use prices i database
         }})
         .exec()
         .then(() => {

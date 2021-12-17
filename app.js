@@ -1,3 +1,4 @@
+const cookieSession = require("cookie-session");
 const express = require("express");
 const cors = require("cors");
 const morgan = require("morgan");
@@ -26,9 +27,6 @@ const auth = require('./api/routes/auth');
 
 const port = 1337;
 
-// Cors
-app.use(cors());
-
 // don't show the log when it is test
 if (process.env.NODE_ENV !== 'test') {
     // use morgan to log at command line
@@ -40,8 +38,20 @@ app.use(express.json());
 app.use(bodyParser.json()); // for parsing application/json
 app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
 
+app.use(
+    cookieSession({ name: "session", keys: ["lama"], maxAge: 24 * 60 * 60 * 100 })
+);
+
 // Initialize passport
 app.use(passport.initialize());
+app.use(passport.session());
+
+// Cors
+app.use(cors({
+    origin: "http://localhost:3000", // allow to server to accept request from different origin
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+    credentials: true // allow session cookie from browser to pass through
+}));
 
 // Middleware for all routes
 app.use((req, res, next) => {
