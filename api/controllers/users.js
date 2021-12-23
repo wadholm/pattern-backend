@@ -166,11 +166,23 @@ exports.users_update_user = (req, res) => {
         updateOps[ops.propName] = ops.value;
     }
 
-    User.updateOne({ _id: id }, { $set: updateOps })
+    User.findByIdAndUpdate(id, { $set: updateOps }, {new: true})
         .exec()
-        .then(() => {
-            res.status(200).json({
-                message: "User succesfully updated"
+        .then(result => {
+            res.status(201).json({
+                message: "User succesfully updated",
+                updatedUser: {
+                    _id: result._id,
+                    firstname: result.firstname,
+                    lastname: result.lastname,
+                    email: result.email,
+                    password: result.password,
+                    phone: result.phone,
+                    payment_method: result.payment_method,
+                    card_information: result.card_information,
+                    balance: result.balance,
+                    account_status: result.account_status
+                }
             });
         })
         .catch(err => {

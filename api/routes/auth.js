@@ -28,6 +28,7 @@ router.get("/login", (req, res) => {
     res.render("login");
 });
 
+// update generate Acces token to use email aswell?
 // auth login success
 router.get("/login/success", (req, res) => {
     if (req.user) {
