@@ -40,6 +40,9 @@ router.get("/login/success", (req, res) => {
             user: req.user
         });
     }
+    return res.status(200).json({
+        message: "Auth failed",
+    });
 });
 
 // auth login failed
@@ -47,12 +50,13 @@ router.get("/login/failed", (req, res) => {
     return res.status(401).json({
         message: "Auth failed"
     });
+    //redirect to home page?
 });
 
 // auth logout
 router.get("/logout", (req, res) => {
     req.logout();
-    res.redirect(CLIENT_HOME_PAGE_URL);
+    return res.redirect(CLIENT_HOME_PAGE_URL);
 });
 
 // auth with google
@@ -65,7 +69,9 @@ router.get("/google", passport.authenticate("google", {
 router.get("/google/redirect", passport.authenticate("google", {
     // session: false,
     successRedirect: CLIENT_HOME_PAGE_URL,
-    failureRedirect: "/login/failed"})
+    // failureRedirect: "/login/failed",
+    failureRedirect: "/auth/login/failed"
+})
 );
 
 // //callback route for google to redirect to

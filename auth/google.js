@@ -13,20 +13,22 @@ passport.use(
         clientSecret: process.env.GOOGLE_CLIENT_SECRET
     }, (accessToken, refreshToken, profile, done) => {
         // check if user exists in db
-        User.findOne({ email: profile._json.email }).then((currentUser) => {
-            if (!currentUser) {
-                new User({
-                    _id: new mongoose.Types.ObjectId(),
-                    firstname: profile._json.given_name,
-                    lastname: profile._json.family_name,
-                    email: profile._json.email
-                }).save().then((newUser) => {
-                    console.log("new user created: " + newUser);
-                    done(null, newUser);
-                });
-            }
-            done(null, currentUser);
-        });
+        User.findOne({ email: profile._json.email })
+            .then((currentUser, err) => {
+                if (err) { return done(err); }
+                if (!currentUser) {
+                    new User({
+                        _id: new mongoose.Types.ObjectId(),
+                        firstname: profile._json.given_name,
+                        lastname: profile._json.family_name,
+                        email: profile._json.email
+                    }).save().then((newUser) => {
+                        console.info("new user created: " + newUser);
+                        return done(null, newUser);
+                    });
+                }
+                return done(null, currentUser);
+            });
     })
 );
 
