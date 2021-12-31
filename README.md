@@ -1,5 +1,6 @@
 # pattern API
 [![Build Status](https://app.travis-ci.com/wadholm/pattern-backend.svg?branch=main)](https://app.travis-ci.com/wadholm/pattern-backend)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/wadholm/pattern-backend/badges/quality-score.png?b=main)](https://scrutinizer-ci.com/g/wadholm/pattern-backend/?branch=main)
 
 This API is built as a part of the course pattern at BTH.
 
