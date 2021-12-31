@@ -1,16 +1,12 @@
-const cookieSession = require("cookie-session");
 const express = require("express");
 const cors = require("cors");
 const morgan = require("morgan");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
-const passport = require("passport");
 
 require('dotenv').config();
 
-require("./auth/google");
-require("./auth/github");
-require("./auth/facebook");
+const CLIENT_HOME_PAGE_URL = "http://localhost:3000";
 
 const app = express();
 
@@ -38,17 +34,9 @@ app.use(express.json());
 app.use(bodyParser.json()); // for parsing application/json
 app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
 
-app.use(
-    cookieSession({ name: "session", keys: ["lama"], maxAge: 24 * 60 * 60 * 100 })
-);
-
-// Initialize passport
-app.use(passport.initialize());
-app.use(passport.session());
-
 // Cors
 app.use(cors({
-    origin: "http://localhost:3000", // allow to server to accept request from different origin
+    origin: CLIENT_HOME_PAGE_URL, // allow server to accept request from different origin
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
     credentials: true // allow session cookie from browser to pass through
 }));
@@ -59,15 +47,16 @@ app.use((req, res, next) => {
 });
 
 // Add routes
-app.use('/', index);
-app.use('/api', api);
-app.use('/users', users);
-app.use('/admins', admins);
-app.use('/cities', cities);
-app.use('/prices', prices);
-app.use('/bikes', bikes);
-app.use('/trips', trips);
-app.use('/auth', auth);
+// current version v1
+app.use('/v1/', index);
+app.use('/v1/api', api);
+app.use('/v1/users', users);
+app.use('/v1/admins', admins);
+app.use('/v1/cities', cities);
+app.use('/v1/prices', prices);
+app.use('/v1/bikes', bikes);
+app.use('/v1/trips', trips);
+app.use('/v1/auth', auth);
 
 // set view engine for testing Oauth / manual for API?
 app.set('view engine', 'ejs');

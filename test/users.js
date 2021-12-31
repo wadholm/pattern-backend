@@ -11,10 +11,10 @@ chai.should();
 chai.use(chaiHttp);
 
 describe('Users model', () => {
-    describe('GET /users', () => {
+    describe('GET /v1/users', () => {
         it('200 HAPPY PATH for users', (done) => {
             chai.request(server)
-                .get("/users")
+                .get("/v1/users")
                 .end((err, res) => {
                     res.should.have.status(200);
                     res.body.should.be.an("object");

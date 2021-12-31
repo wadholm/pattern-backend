@@ -123,13 +123,15 @@ exports.trips_update_trip = (req, res) => {
 exports.trips_end_trip = (req, res) => {
     const id = req.params.tripId;
 
+    // get data from bike -> latest_trip
+
     Trip.updateOne({ _id: id },
         { $set: {
-            stop_time: new Date,
+            stop_time: new Date().toJSON(),
             stop_coordinates: req.body.stop_coordinates, // get from bikes
-            average_speed: req.body.average_speed, // ta bort
-            distance: req.body.distance, // bike solves
-            price: req.body.price // use prices i database
+            average_speed: req.body.average_speed, // get from bikes
+            distance: req.body.distance, // get from bikes
+            price: req.body.price // get from bikes
         }})
         .exec()
         .then(() => {

@@ -6,6 +6,13 @@ const latLongSchema = mongoose.Schema({
     long: { type: Number, default: 0},
 });
 
+const latestTripSchema = mongoose.Schema({
+    _id: false,
+    average_speed: { type: Number },
+    distance: { type: Number },
+    price: { type: Number }
+});
+
 const bikeSchema = mongoose.Schema({
     _id: mongoose.Schema.Types.ObjectId,
     city_id: { type: mongoose.Schema.Types.ObjectId, ref: "City", require: true},
@@ -15,6 +22,7 @@ const bikeSchema = mongoose.Schema({
     battery_status: { type: Number, default: 100 },
     maintenance: { type: Boolean, default: false },
     coordinates: { type: latLongSchema },
+    latest_trip: { type: latestTripSchema }
 });
 
 module.exports = mongoose.model("Bike", bikeSchema);

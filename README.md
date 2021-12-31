@@ -61,6 +61,7 @@ bike_status
 battery_status
 coordinates
 maintenance
+latest_trip
 ```
 
 ### trips
@@ -101,29 +102,12 @@ api_key
 
 #### Request api key
 ```
-POST /api/register
+http://localhost:1337/v1/auth/api_key
 ```
-
-Required parameters:
-```
-email
-```
-Result:
-```
-{
-    "message": "Succesfully created an api key",
-    "createdApi": {
-        "_id": "61b0d06bc538ad2053787cd6",
-        "email": "hi@example.com",
-        "api_key": "longandrandomapikey"
-    }
-}
-```
-
 
 #### To get all users
 ```
-GET /users
+GET /v1/users
 ```
 Result:
 ```

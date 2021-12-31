@@ -15,7 +15,7 @@ const userSchema = mongoose.Schema({
     password: { type: String },
     phone: { type: String, default: "unknown"},
     city: { type: mongoose.Schema.Types.ObjectId, ref: "City"},
-    payment_method: { type: String, default: "unknown"},
+    payment_method: { type: String, default: "refill"}, // monthly/refill
     card_information: { type: String, default: "unknown"},
     balance: { type: Number, default: 0},
     account_status: { type: String, default: "active"}

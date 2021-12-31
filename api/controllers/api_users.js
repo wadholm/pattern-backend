@@ -8,9 +8,11 @@ exports.api_register = (req, res) => {
         .exec()
         .then(api => {
             if (api.length >= 1) {
-                return res.status(409).json({
-                    message: "Email already exists"
-                });
+                res.render("api-result", {
+                    api_key: "",
+                    message: "Email already exists!",
+                    note: "Please try with another email adress."}
+                );
             }
 
             let id = new mongoose.Types.ObjectId();
@@ -22,7 +24,7 @@ exports.api_register = (req, res) => {
                 },
                 process.env.JWT_SECRET,
                 {
-                    expiresIn: '24h'
+                    expiresIn: '35d'
                 }
             );
 
@@ -34,20 +36,49 @@ exports.api_register = (req, res) => {
 
             newApiUser.save()
                 .then(result => {
-                    res.status(201).json({
-                        message: "Succesfully created an api key",
-                        createdApi: {
-                            _id: result._id,
-                            email: result.email,
-                            api_key: result.api_key
-                        }
-                    });
+                    if (result) {
+                        res.render("api-result", {
+                            api_key: result.api_key,
+                            message: "Registration succesfull!",
+                            note: "This is your personal API key, keep it safe."}
+                        );
+                    }
                 })
                 .catch(err => {
                     console.error(err);
-                    res.status(500).json({
-                        error: err
-                    });
+                    res.render("api-result", {
+                        api_key: "",
+                        message: "Something went wrong!",
+                        note: "Please try again."}
+                    );
                 });
         });
+};
+
+exports.api_deregister = (req, res) => {
+    ApiUser.deleteOne({ email: req.body.email })
+        .exec()
+        .then(() => {
+            res.render("api-result", {
+                api_key: "",
+                message: "Deregistration succesfull!",
+                note: "Your email has been deleted."}
+            );
+        })
+        .catch(err => {
+            console.error(err);
+            res.render("api-result", {
+                api_key: "",
+                message: "Something went wrong!",
+                note: "Please try again."}
+            );
+        });
+};
+
+exports.api_register_form = (req, res) => {
+    res.render("api-register");
+};
+
+exports.api_deregister_form = (req, res) => {
+    res.render("api-deregister");
 };
