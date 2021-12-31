@@ -1,3 +1,5 @@
+global.TextEncoder = require("util").TextEncoder; global.TextDecoder = require("util").TextDecoder;
+
 const express = require("express");
 const cors = require("cors");
 const morgan = require("morgan");
