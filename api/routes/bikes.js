@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+// eslint-disable-next-line no-unused-vars
 const checkAuth = require("../middleware/check-auth");
 
 const BikesController = require("../controllers/bikes");
@@ -19,13 +20,13 @@ router.post('/', BikesController.bikes_add_bike);
 // update bike by id
 router.patch('/:bikeId', BikesController.bikes_update_bike);
 
-// add bike
-router.put('/:bikeId', BikesController.bikes_add_bike);
+// // add bike
+// router.put('/:bikeId', BikesController.bikes_add_bike);
 
 // maintenance for bike by id
 router.put('/maintenance/:bikeId', BikesController.bikes_maintenance);
 
-// only for testing, change to soft delete
-router.delete('/:bikeId', checkAuth, BikesController.bikes_delete_bike);
+// // only for testing, change to soft delete
+// router.delete('/:bikeId', checkAuth, BikesController.bikes_delete_bike);
 
 module.exports = router;

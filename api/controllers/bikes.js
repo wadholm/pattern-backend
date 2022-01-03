@@ -256,21 +256,21 @@ exports.bikes_maintenance = (req, res) => {
 // };
 
 
-exports.bikes_delete_bike = (req, res) => {
-    const id = req.params.bikeId;
+// exports.bikes_delete_bike = (req, res) => {
+//     const id = req.params.bikeId;
 
-    Bike.remove({ _id: id })
-        .exec()
-        .then(() => {
-            res.status(200).json({
-                message: "Bike succesfully deleted"
-            });
-        })
-        .catch(err => {
-            console.error(err);
-            res.status(500).json({
-                error: err
-            });
-        });
-};
+//     Bike.remove({ _id: id })
+//         .exec()
+//         .then(() => {
+//             res.status(200).json({
+//                 message: "Bike succesfully deleted"
+//             });
+//         })
+//         .catch(err => {
+//             console.error(err);
+//             res.status(500).json({
+//                 error: err
+//             });
+//         });
+// };
 

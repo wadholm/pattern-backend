@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+// eslint-disable-next-line no-unused-vars
 const checkAuth = require("../middleware/check-auth");
 
 const UsersController = require("../controllers/users");
@@ -19,8 +20,8 @@ router.post('/login', UsersController.users_login);
 // update user by id
 router.patch('/:userId', UsersController.users_update_user);
 
-// only for testing, change to soft delete
-router.delete('/:userId', checkAuth, UsersController.users_delete_user);
+// // only for testing, change to soft delete
+// router.delete('/:userId', checkAuth, UsersController.users_delete_user);
 
 
 module.exports = router;

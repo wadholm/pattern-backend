@@ -16,44 +16,42 @@ let token;
 let id;
 
 before((done) => {
-    mongoose.connection.collections.users.drop(() => {
+    mongoose.connection.collections.admins.drop(() => {
         done();
     });
 });
 
-describe('Users model', () => {
-    describe('POST /v1/users/register', () => {
-        it('should get 201 registering user', (done) => {
-            let user = {
-                firstname: "John",
-                lastname: "Doe",
-                email: "test@example.com",
-                password: "123test"
+describe('Admins model', () => {
+    describe('POST /v1/admins/register', () => {
+        it('should get 201 registering an admin', (done) => {
+            let admin = {
+                username: "admin1",
+                password: "admin123"
             };
 
             chai.request(server)
-                .post("/v1/users/register")
-                .send(user)
+                .post("/v1/admins/register")
+                .send(admin)
                 .end((err, res) => {
                     res.should.have.status(201);
                     res.body.should.be.an("object");
-                    res.body.should.have.property("createdUser");
+                    res.body.should.have.property("createdAdmin");
                     res.body.should.have.property("message");
-                    id = res.body.createdUser._id;
-                    res.body.message.should.equal("Succesfully created a user");
+                    id = res.body.createdAdmin._id;
+                    res.body.message.should.equal("Succesfully created an admin");
                     done();
                 });
         });
     });
-    describe('POST /v1/users/login', () => {
-        it('should get 200 loging in user', (done) => {
+    describe('POST /v1/admins/login', () => {
+        it('should get 200 loging in admin', (done) => {
             let user = {
-                email: "test@example.com",
-                password: "123test"
+                username: "admin1",
+                password: "admin123"
             };
 
             chai.request(server)
-                .post("/v1/users/login")
+                .post("/v1/admins/login")
                 .send(user)
                 .end((err, res) => {
                     res.should.have.status(200);
@@ -66,21 +64,10 @@ describe('Users model', () => {
                 });
         });
     });
-    describe('GET /v1/users', () => {
-        it('200 HAPPY PATH for users', (done) => {
+    describe('GET /v1/admins', () => {
+        it('200 HAPPY PATH for admins', (done) => {
             chai.request(server)
-                .get("/v1/users")
-                .end((err, res) => {
-                    res.should.have.status(200);
-                    res.body.should.be.an("object");
-                    done();
-                });
-        });
-    });
-    describe('GET /v1/users/:id', () => {
-        it('200 HAPPY PATH for users by id', (done) => {
-            chai.request(server)
-                .get(`/v1/users/${id}`)
+                .get("/v1/admins")
                 .set('x-access-token', token)
                 .end((err, res) => {
                     res.should.have.status(200);
@@ -89,22 +76,32 @@ describe('Users model', () => {
                 });
         });
     });
-    describe('PATCH /v1/users/:id', () => {
-        it('should get 200 updating user', (done) => {
+    describe('GET /v1/admins/:id', () => {
+        it('200 HAPPY PATH for admins by id', (done) => {
+            chai.request(server)
+                .get(`/v1/admins/${id}`)
+                .set('x-access-token', token)
+                .end((err, res) => {
+                    res.should.have.status(200);
+                    res.body.should.be.an("object");
+                    done();
+                });
+        });
+    });
+    describe('PATCH /v1/admins/:id', () => {
+        it('should get 200 updating admin', (done) => {
             let updates = [
-                {"propName": "card_information", "value": "12345"}
+                {"propName": "username", "value": "admin2"}
             ];
 
             chai.request(server)
-                .patch(`/v1/users/${id}`)
+                .patch(`/v1/admins/${id}`)
                 .send(updates)
                 .end((err, res) => {
                     res.should.have.status(200);
                     res.body.should.be.an("object");
-                    res.body.should.have.property("updatedUser");
-                    res.body.updatedUser.card_information.should.equal("12345");
                     res.body.should.have.property("message");
-                    res.body.message.should.equal("User succesfully updated");
+                    res.body.message.should.equal("Admin succesfully updated");
                     done();
                 });
         });

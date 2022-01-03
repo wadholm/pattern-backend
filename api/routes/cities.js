@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+// eslint-disable-next-line no-unused-vars
 const checkAuth = require("../middleware/check-auth");
 
 const CitiesController = require("../controllers/cities");
@@ -28,8 +29,8 @@ router.post('/:cityId', CitiesController.cities_add_station);
 // update station by id
 router.patch('/station/:stationId', CitiesController.cities_update_station);
 
-// only for testing, change to soft delete
-router.delete('/:cityId', checkAuth, CitiesController.cities_delete_city);
+// // only for testing, change to soft delete
+// router.delete('/:cityId', checkAuth, CitiesController.cities_delete_city);
 
 
 module.exports = router;

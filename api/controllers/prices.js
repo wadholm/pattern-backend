@@ -64,7 +64,7 @@ exports.prices_update = (req, res) => {
         .exec()
         .then(() => {
             res.status(200).json({
-                message: "price succesfully updated"
+                message: "Price succesfully updated"
             });
         })
         .catch(err => {
@@ -75,20 +75,20 @@ exports.prices_update = (req, res) => {
         });
 };
 
-exports.prices_delete = (req, res) => {
-    const id = req.params.priceId;
+// exports.prices_delete = (req, res) => {
+//     const id = req.params.priceId;
 
-    Price.remove({ _id: id })
-        .exec()
-        .then(() => {
-            res.status(200).json({
-                message: "price succesfully deleted"
-            });
-        })
-        .catch(err => {
-            console.error(err);
-            res.status(500).json({
-                error: err
-            });
-        });
-};
+//     Price.remove({ _id: id })
+//         .exec()
+//         .then(() => {
+//             res.status(200).json({
+//                 message: "price succesfully deleted"
+//             });
+//         })
+//         .catch(err => {
+//             console.error(err);
+//             res.status(500).json({
+//                 error: err
+//             });
+//         });
+// };

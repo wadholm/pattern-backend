@@ -147,7 +147,7 @@ exports.admins_update_admin = (req, res) => {
         .exec()
         .then(() => {
             res.status(200).json({
-                message: "admin succesfully updated"
+                message: "Admin succesfully updated"
             });
         })
         .catch(err => {
@@ -158,20 +158,20 @@ exports.admins_update_admin = (req, res) => {
         });
 };
 
-exports.admins_delete_admin = (req, res) => {
-    const id = req.params.adminId;
+// exports.admins_delete_admin = (req, res) => {
+//     const id = req.params.adminId;
 
-    Admin.remove({ _id: id })
-        .exec()
-        .then(() => {
-            res.status(200).json({
-                message: "admin succesfully deleted"
-            });
-        })
-        .catch(err => {
-            console.error(err);
-            res.status(500).json({
-                error: err
-            });
-        });
-};
+//     Admin.remove({ _id: id })
+//         .exec()
+//         .then(() => {
+//             res.status(200).json({
+//                 message: "admin succesfully deleted"
+//             });
+//         })
+//         .catch(err => {
+//             console.error(err);
+//             res.status(500).json({
+//                 error: err
+//             });
+//         });
+// };

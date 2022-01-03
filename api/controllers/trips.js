@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 
 const Trip = require("../models/trip");
+const Bike = require("../models/bike");
 
 exports.trips_get_all = (req, res) => {
     Trip.find()
@@ -120,24 +121,148 @@ exports.trips_update_trip = (req, res) => {
         });
 };
 
+// exports.trips_end_trip = (req, res) => {
+//     const id = req.params.tripId;
+//     let currentBike = {
+//         stop_coordinates: "", // get from bikes
+//         average_speed: "", // get from bikes
+//         distance: "", // get from bikes
+//         price: "" // get from bikes
+//     };
+
+//     Trip.findById(id)
+//         .select("-__v")
+//         .exec()
+//         .then(doc => {
+//             if (doc) {
+//                 console.log(doc.bike_id.toJSON());
+//                 const bikeId = doc.bike_id.toJSON();
+
+//                 Bike.findById(bikeId)
+//                     .select("-__v")
+//                     .exec()
+//                     .then(doc => {
+//                         if (doc) {
+//                             // console.log(doc.latest_trip.price);
+//                             // console.log(doc);
+//                             currentBike = {
+//                                 stop_coordinates: doc.coordinates,
+//                                 average_speed: doc.latest_trip.average_speed,
+//                                 distance: doc.latest_trip.distance,
+//                                 price: doc.latest_trip.price
+//                             };
+//                             console.log(currentBike);
+//                             Trip.updateOne({ _id: id },
+//                                 { $set: {
+//                                     stop_time: new Date().toJSON(),
+// eslint-disable-next-line max-len
+//                                     stop_coordinates: currentBike.stop_coordinates, // get from bike
+//                                     average_speed: currentBike.average_speed, // get from bikes
+//                                     distance: currentBike.distance, // get from bikes
+//                                     price: currentBike.price // get from bikes
+//                                 }})
+//                                 .exec()
+//                                 .then(() => {
+//                                     console.log("1 Trip ended");
+//                                     // return res.status(200).json({
+//                                     //     message: "Trip ended"
+//                                     // });
+//                                 })
+//                                 .catch(err => {
+//                                     console.error(err);
+//                                     res.status(500).json({
+//                                         error: err
+//                                     });
+//                                 });
+//                         }
+//                         console.error("2 No valid entry found for provided bike ID.");
+//                         // return res.status(404).json({
+//                         //     message: "No valid entry found for provided bike ID."
+//                         // });
+//                     })
+//                     .catch(err => {
+//                         console.error(err);
+//                         res.status(500).json({
+//                             error: err
+//                         });
+//                     });
+//             }
+//             console.error("3 No valid entry found for provided bike ID.");
+//             return res.status(404).json({
+//                 message: "No valid entry found for provided trip ID."
+//             });
+//         })
+//     // get data from bike -> latest_trip
+//         .catch(err => {
+//             console.error(err);
+//             res.status(500).json({
+//                 error: err
+//             });
+//         });
+// };
+
 exports.trips_end_trip = (req, res) => {
     const id = req.params.tripId;
+    let bikeId;
+    let currentBike = {
+        stop_coordinates: "", // get from bikes
+        average_speed: "", // get from bikes
+        distance: "", // get from bikes
+        price: "" // get from bikes
+    };
 
-    // get data from bike -> latest_trip
-
-    Trip.updateOne({ _id: id },
-        { $set: {
-            stop_time: new Date().toJSON(),
-            stop_coordinates: req.body.stop_coordinates, // get from bikes
-            average_speed: req.body.average_speed, // get from bikes
-            distance: req.body.distance, // get from bikes
-            price: req.body.price // get from bikes
-        }})
+    Trip.findById(id)
+        .select("-__v")
         .exec()
-        .then(() => {
-            res.status(200).json({
-                message: "Trip ended"
-            });
+        .then(trip => {
+            if (!trip) {
+                return res.status(404).json({
+                    message: "No valid entry found for provided trip ID."
+                });
+            }
+            bikeId = trip.bike_id.toJSON();
+            Bike.findById(bikeId)
+                .select("-__v")
+                .exec()
+                .then(bike => {
+                    if (!bike) {
+                        return res.status(404).json({
+                            message: "No valid entry found for provided bike ID."
+                        });
+                    }
+                    currentBike = {
+                        stop_coordinates: bike.coordinates,
+                        average_speed: bike.latest_trip.average_speed,
+                        distance: bike.latest_trip.distance,
+                        price: bike.latest_trip.price
+                    };
+                    Trip.updateOne({ _id: id },
+                        { $set: {
+                            stop_time: new Date().toJSON(),
+                            stop_coordinates: currentBike.stop_coordinates, // get from bike
+                            average_speed: currentBike.average_speed, // get from bikes
+                            distance: currentBike.distance, // get from bikes
+                            price: currentBike.price // get from bikes
+                        }})
+                        .exec()
+                        .then(() => {
+                            return res.status(200).json({
+                                message: "Trip ended"
+                            });
+                        })
+                        .catch(err => {
+                            console.error(err);
+                            res.status(500).json({
+                                error: err
+                            });
+                        });
+                })
+                .catch(err => {
+                    console.error(err);
+                    res.status(500).json({
+                        error: err
+                    });
+                });
         })
         .catch(err => {
             console.error(err);

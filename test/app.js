@@ -10,7 +10,7 @@ chai.should();
 
 chai.use(chaiHttp);
 
-describe('app', () => {
+describe('Index', () => {
     describe('GET /v1/', () => {
         it('200 HAPPY PATH for index', (done) => {
             chai.request(server)

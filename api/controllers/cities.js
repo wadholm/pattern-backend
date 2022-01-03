@@ -222,21 +222,21 @@ exports.cities_update_station = async (req, res) => {
 };
 
 
-exports.cities_delete_city = (req, res) => {
-    const id = req.params.cityId;
+// exports.cities_delete_city = (req, res) => {
+//     const id = req.params.cityId;
 
-    City.remove({ _id: id })
-        .exec()
-        .then(() => {
-            res.status(200).json({
-                message: "City succesfully deleted"
-            });
-        })
-        .catch(err => {
-            console.error(err);
-            res.status(500).json({
-                error: err
-            });
-        });
-};
+//     City.remove({ _id: id })
+//         .exec()
+//         .then(() => {
+//             res.status(200).json({
+//                 message: "City succesfully deleted"
+//             });
+//         })
+//         .catch(err => {
+//             console.error(err);
+//             res.status(500).json({
+//                 error: err
+//             });
+//         });
+// };
 

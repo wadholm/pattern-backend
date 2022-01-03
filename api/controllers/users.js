@@ -171,7 +171,7 @@ exports.users_update_user = (req, res) => {
     User.findByIdAndUpdate(id, { $set: updateOps }, {new: true})
         .exec()
         .then(result => {
-            res.status(201).json({
+            res.status(200).json({
                 message: "User succesfully updated",
                 updatedUser: {
                     _id: result._id,
@@ -196,20 +196,20 @@ exports.users_update_user = (req, res) => {
         });
 };
 
-exports.users_delete_user = (req, res) => {
-    const id = req.params.userId;
+// exports.users_delete_user = (req, res) => {
+//     const id = req.params.userId;
 
-    User.remove({ _id: id })
-        .exec()
-        .then(() => {
-            res.status(200).json({
-                message: "User succesfully deleted"
-            });
-        })
-        .catch(err => {
-            console.error(err);
-            res.status(500).json({
-                error: err
-            });
-        });
-};
+//     User.remove({ _id: id })
+//         .exec()
+//         .then(() => {
+//             res.status(200).json({
+//                 message: "User succesfully deleted"
+//             });
+//         })
+//         .catch(err => {
+//             console.error(err);
+//             res.status(500).json({
+//                 error: err
+//             });
+//         });
+// };

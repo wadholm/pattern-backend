@@ -11,10 +11,9 @@ router.get('/', PriceController.prices_get);
 router.post('/', PriceController.prices_add);
 
 // update price by id
-router.patch('/:priceId', PriceController.prices_update);
+router.patch('/:priceId', checkAuth, PriceController.prices_update);
 
-// only for testing, change to soft delete
-router.delete('/:priceId', checkAuth, PriceController.prices_delete);
-
+// // only for testing, change to soft delete
+// router.delete('/:priceId', checkAuth, PriceController.prices_delete);
 
 module.exports = router;
