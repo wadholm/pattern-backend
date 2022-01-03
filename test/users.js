@@ -1,4 +1,5 @@
 /* eslint-env mocha */
+/** global: server */
 
 process.env.NODE_ENV = 'test';
 

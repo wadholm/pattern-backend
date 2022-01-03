@@ -1,4 +1,5 @@
 /* eslint-env mocha */
+/** global: server */
 
 process.env.NODE_ENV = 'test';
 
@@ -27,6 +28,7 @@ describe('Prices model', () => {
                 .get("/v1/prices")
                 .set('x-access-token', process.env.TEST_TOKEN)
                 .end((err, res) => {
+                    if (err) {done(err);}
                     res.should.have.status(200);
                     res.body.should.be.an("object");
                     done();
@@ -39,6 +41,7 @@ describe('Prices model', () => {
                 .post(`/v1/prices`)
                 .set('x-access-token', process.env.TEST_TOKEN)
                 .end((err, res) => {
+                    if (err) {done(err);}
                     res.should.have.status(201);
                     res.body.should.be.an("object");
                     res.body.should.have.property("addedPrice");
@@ -60,6 +63,7 @@ describe('Prices model', () => {
                 .set('x-access-token', process.env.TEST_TOKEN)
                 .send(updates)
                 .end((err, res) => {
+                    if (err) {done(err);}
                     res.should.have.status(200);
                     res.body.should.be.an("object");
                     res.body.should.have.property("message");

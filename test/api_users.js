@@ -1,4 +1,5 @@
 /* eslint-env mocha */
+/** global: server */
 
 process.env.NODE_ENV = 'test';
 
@@ -30,6 +31,7 @@ describe('Api Users model', () => {
                 .post("/v1/api/register")
                 .send(user)
                 .end((err, res) => {
+                    if (err) {done(err);}
                     res.should.have.status(200);
                     done();
                 });
@@ -45,6 +47,7 @@ describe('Api Users model', () => {
                 .post("/v1/api/deregister")
                 .send(user)
                 .end((err, res) => {
+                    if (err) {done(err);}
                     res.should.have.status(200);
                     done();
                 });
@@ -55,6 +58,7 @@ describe('Api Users model', () => {
             chai.request(server)
                 .get("/v1/api/key")
                 .end((err, res) => {
+                    if (err) {done(err);}
                     res.should.have.status(200);
                     done();
                 });
@@ -65,6 +69,7 @@ describe('Api Users model', () => {
             chai.request(server)
                 .get("/v1/api/key/deregister")
                 .end((err, res) => {
+                    if (err) {done(err);}
                     res.should.have.status(200);
                     done();
                 });

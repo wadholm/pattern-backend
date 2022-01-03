@@ -18,8 +18,15 @@ let id;
 
 before((done) => {
     mongoose.connection.collections.admins.drop(() => {
-        done();
+        console.info("Dropping collection");
     });
+    done();
+});
+
+after((done) => {
+    mongoose.connection.close(() => {
+    });
+    done();
 });
 
 describe('Admins model', () => {
@@ -34,6 +41,7 @@ describe('Admins model', () => {
                 .post("/v1/admins/register")
                 .send(admin)
                 .end((err, res) => {
+                    if (err) {done(err);}
                     res.should.have.status(201);
                     res.body.should.be.an("object");
                     res.body.should.have.property("createdAdmin");
@@ -55,6 +63,7 @@ describe('Admins model', () => {
                 .post("/v1/admins/login")
                 .send(user)
                 .end((err, res) => {
+                    if (err) {done(err);}
                     res.should.have.status(200);
                     res.body.should.be.an("object");
                     res.body.should.have.property("token");
@@ -71,6 +80,7 @@ describe('Admins model', () => {
                 .get("/v1/admins")
                 .set('x-access-token', token)
                 .end((err, res) => {
+                    if (err) {done(err);}
                     res.should.have.status(200);
                     res.body.should.be.an("object");
                     done();
@@ -83,6 +93,7 @@ describe('Admins model', () => {
                 .get(`/v1/admins/${id}`)
                 .set('x-access-token', token)
                 .end((err, res) => {
+                    if (err) {done(err);}
                     res.should.have.status(200);
                     res.body.should.be.an("object");
                     done();
@@ -99,6 +110,7 @@ describe('Admins model', () => {
                 .patch(`/v1/admins/${id}`)
                 .send(updates)
                 .end((err, res) => {
+                    if (err) {done(err);}
                     res.should.have.status(200);
                     res.body.should.be.an("object");
                     res.body.should.have.property("message");

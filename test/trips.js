@@ -1,4 +1,5 @@
 /* eslint-env mocha */
+/** global: server */
 
 process.env.NODE_ENV = 'test';
 
@@ -86,6 +87,7 @@ describe('Trips model', () => {
                 .get("/v1/trips")
                 .set('x-access-token', process.env.TEST_TOKEN)
                 .end((err, res) => {
+                    if (err) {done(err);}
                     res.should.have.status(200);
                     res.body.should.be.an("object");
                     done();
@@ -127,6 +129,7 @@ describe('Trips model', () => {
                 .set('x-access-token', process.env.TEST_TOKEN)
                 .send(bike)
                 .end((err, res) => {
+                    if (err) {done(err);}
                     res.should.have.status(201);
                     res.body.should.be.an("object");
                     res.body.should.have.property("startedTrip");

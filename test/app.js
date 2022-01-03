@@ -1,4 +1,5 @@
 /* global it describe */
+/** global: server */
 
 process.env.NODE_ENV = 'test';
 
@@ -16,6 +17,7 @@ describe('Index', () => {
             chai.request(server)
                 .get("/v1/")
                 .end((err, res) => {
+                    if (err) {done(err);}
                     res.should.have.status(200);
 
                     done();

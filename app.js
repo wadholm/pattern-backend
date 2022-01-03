@@ -68,7 +68,7 @@ let dsn;
 
 // Test db
 if (process.env.NODE_ENV === 'test') {
-    dsn = "mongodb://localhost:27017/testdb";
+    dsn = "mongodb://127.0.0.1:27017/testdb";
 } else {
     // MongoDB Atlas
     dsn = `

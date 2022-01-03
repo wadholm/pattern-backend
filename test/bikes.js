@@ -1,4 +1,6 @@
 /* eslint-env mocha */
+/** global: server */
+
 
 process.env.NODE_ENV = 'test';
 
@@ -37,6 +39,7 @@ describe('Bikes model', () => {
                 .get("/v1/bikes")
                 .set('x-access-token', process.env.TEST_TOKEN)
                 .end((err, res) => {
+                    if (err) {done(err);}
                     res.should.have.status(200);
                     res.body.should.be.an("object");
                     done();
@@ -83,6 +86,7 @@ describe('Bikes model', () => {
                 .set('x-access-token', process.env.TEST_TOKEN)
                 .send(bike)
                 .end((err, res) => {
+                    if (err) {done(err);}
                     res.should.have.status(201);
                     res.body.should.be.an("object");
                     res.body.should.have.property("addedBike");
@@ -99,6 +103,7 @@ describe('Bikes model', () => {
                 .get(`/v1/bikes/city/${cityId}`)
                 .set('x-access-token', process.env.TEST_TOKEN)
                 .end((err, res) => {
+                    if (err) {done(err);}
                     res.should.have.status(200);
                     res.body.should.be.an("object");
                     done();
@@ -111,6 +116,7 @@ describe('Bikes model', () => {
                 .get(`/v1/bikes/${bikeId}`)
                 .set('x-access-token', process.env.TEST_TOKEN)
                 .end((err, res) => {
+                    if (err) {done(err);}
                     res.should.have.status(200);
                     res.body.should.be.an("object");
                     done();
@@ -145,6 +151,7 @@ describe('Bikes model', () => {
                 .set('x-access-token', process.env.TEST_TOKEN)
                 .send(updates)
                 .end((err, res) => {
+                    if (err) {done(err);}
                     res.should.have.status(200);
                     res.body.should.be.an("object");
                     res.body.should.have.property("message");
@@ -164,6 +171,7 @@ describe('Bikes model', () => {
                 .set('x-access-token', process.env.TEST_TOKEN)
                 .send(updates)
                 .end((err, res) => {
+                    if (err) {done(err);}
                     res.should.have.status(200);
                     res.body.should.be.an("object");
                     res.body.should.have.property("message");

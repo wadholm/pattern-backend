@@ -1,4 +1,5 @@
 /* eslint-env mocha */
+/** global: server */
 
 process.env.NODE_ENV = 'test';
 
@@ -32,6 +33,7 @@ describe('Cities model', () => {
                 .get("/v1/cities")
                 .set('x-access-token', process.env.TEST_TOKEN)
                 .end((err, res) => {
+                    if (err) {done(err);}
                     res.should.have.status(200);
                     res.body.should.be.an("object");
                     done();
@@ -59,6 +61,7 @@ describe('Cities model', () => {
                 .set('x-access-token', process.env.TEST_TOKEN)
                 .send(city)
                 .end((err, res) => {
+                    if (err) {done(err);}
                     res.should.have.status(201);
                     res.body.should.be.an("object");
                     res.body.should.have.property("addedCity");
@@ -75,6 +78,7 @@ describe('Cities model', () => {
                 .get(`/v1/cities/${cityId}`)
                 .set('x-access-token', process.env.TEST_TOKEN)
                 .end((err, res) => {
+                    if (err) {done(err);}
                     res.should.have.status(200);
                     res.body.should.be.an("object");
                     done();
@@ -87,6 +91,7 @@ describe('Cities model', () => {
                 .get(`/v1/cities/stations/${cityId}`)
                 .set('x-access-token', process.env.TEST_TOKEN)
                 .end((err, res) => {
+                    if (err) {done(err);}
                     res.should.have.status(200);
                     res.body.should.be.an("object");
                     done();
@@ -105,6 +110,7 @@ describe('Cities model', () => {
                 .set('x-access-token', process.env.TEST_TOKEN)
                 .send(station)
                 .end((err, res) => {
+                    if (err) {done(err);}
                     res.should.have.status(201);
                     res.body.should.be.an("object");
                     res.body.should.have.property("updatedStations");
@@ -127,6 +133,7 @@ describe('Cities model', () => {
                 .set('x-access-token', process.env.TEST_TOKEN)
                 .send(data)
                 .end((err, res) => {
+                    if (err) {done(err);}
                     res.should.have.status(200);
                     res.body.should.be.an("object");
                     done();
@@ -144,6 +151,7 @@ describe('Cities model', () => {
                 .set('x-access-token', process.env.TEST_TOKEN)
                 .send(updates)
                 .end((err, res) => {
+                    if (err) {done(err);}
                     res.should.have.status(200);
                     res.body.should.be.an("object");
                     res.body.should.have.property("message");
@@ -174,6 +182,7 @@ describe('Cities model', () => {
                 .set('x-access-token', process.env.TEST_TOKEN)
                 .send(data)
                 .end((err, res) => {
+                    if (err) {done(err);}
                     res.should.have.status(200);
                     res.body.should.be.an("object");
                     res.body.should.have.property("message");
