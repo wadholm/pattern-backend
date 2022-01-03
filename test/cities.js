@@ -228,21 +228,21 @@ describe('Cities model', () => {
                     done();
                 });
         });
-        it('should get 500 for incorrect id', (done) => {
-            let station = {
-                station_type: "example_stations"
-            };
+        // it('should get 500 for incorrect id', (done) => {
+        //     let station = {
+        //         station_type: "example_stations"
+        //     };
 
-            chai.request(server)
-                .post(`/v1/cities/${cityId}1`)
-                .set('x-access-token', process.env.TEST_TOKEN)
-                .send(station)
-                .end((err, res) => {
-                    if (err) {done(err);}
-                    res.should.have.status(500);
-                    done();
-                });
-        });
+        //     chai.request(server)
+        //         .post(`/v1/cities/${cityId}1`)
+        //         .set('x-access-token', process.env.TEST_TOKEN)
+        //         .send(station)
+        //         .end((err, res) => {
+        //             if (err) {done(err);}
+        //             res.should.have.status(500);
+        //             done();
+        //         });
+        // });
     });
     describe('GET /v1/cities/station/:stationId', () => {
         it('200 HAPPY PATH for station by stationId', (done) => {
@@ -279,22 +279,22 @@ describe('Cities model', () => {
                     done();
                 });
         });
-        it('should get 500 for missing station type', (done) => {
-            let data = {
-                city_id: cityId
-            };
+        // it('should get 500 for missing station type', (done) => {
+        //     let data = {
+        //         city_id: cityId
+        //     };
 
-            chai.request(server)
-                .get(`/v1/cities/station/${stationId}`)
-                .set('x-access-token', process.env.TEST_TOKEN)
-                .send(data)
-                .end((err, res) => {
-                    if (err) {done(err);}
-                    res.should.have.status(500);
-                    res.body.should.be.an("object");
-                    done();
-                });
-        });
+        //     chai.request(server)
+        //         .get(`/v1/cities/station/${stationId}`)
+        //         .set('x-access-token', process.env.TEST_TOKEN)
+        //         .send(data)
+        //         .end((err, res) => {
+        //             if (err) {done(err);}
+        //             res.should.have.status(500);
+        //             res.body.should.be.an("object");
+        //             done();
+        //         });
+        // });
     });
     describe('PATCH /v1/cities/:cityId', () => {
         it('should get 200 updating city', (done) => {
@@ -315,22 +315,22 @@ describe('Cities model', () => {
                     done();
                 });
         });
-        it('should get 500 for incorrect id', (done) => {
-            let updates = [
-                {"propName": "charge_id", "value": stationId}
-            ];
+        // it('should get 500 for incorrect id', (done) => {
+        //     let updates = [
+        //         {"propName": "charge_id", "value": stationId}
+        //     ];
 
-            chai.request(server)
-                .patch(`/v1/cities/${cityId}1`)
-                .set('x-access-token', process.env.TEST_TOKEN)
-                .send(updates)
-                .end((err, res) => {
-                    if (err) {done(err);}
-                    res.should.have.status(500);
-                    res.body.should.be.an("object");
-                    done();
-                });
-        });
+        //     chai.request(server)
+        //         .patch(`/v1/cities/${cityId}1`)
+        //         .set('x-access-token', process.env.TEST_TOKEN)
+        //         .send(updates)
+        //         .end((err, res) => {
+        //             if (err) {done(err);}
+        //             res.should.have.status(500);
+        //             res.body.should.be.an("object");
+        //             done();
+        //         });
+        // });
     });
     describe('PATCH /v1/cities/station/:stationId', () => {
         it('should get 200 updating station', (done) => {
@@ -362,21 +362,21 @@ describe('Cities model', () => {
                     done();
                 });
         });
-        it('should get 500 for incorrect id', (done) => {
-            let updates = [
-                {"propName": "charge_id", "value": stationId}
-            ];
+        // it('should get 500 for incorrect id', (done) => {
+        //     let updates = [
+        //         {"propName": "charge_id", "value": stationId}
+        //     ];
 
-            chai.request(server)
-                .patch(`/v1/cities/station/${stationId}1`)
-                .set('x-access-token', process.env.TEST_TOKEN)
-                .send(updates)
-                .end((err, res) => {
-                    if (err) {done(err);}
-                    res.should.have.status(500);
-                    res.body.should.be.an("object");
-                    done();
-                });
-        });
+        //     chai.request(server)
+        //         .patch(`/v1/cities/station/${stationId}1`)
+        //         .set('x-access-token', process.env.TEST_TOKEN)
+        //         .send(updates)
+        //         .end((err, res) => {
+        //             if (err) {done(err);}
+        //             res.should.have.status(500);
+        //             res.body.should.be.an("object");
+        //             done();
+        //         });
+        // });
     });
 });
