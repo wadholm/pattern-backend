@@ -3,6 +3,7 @@
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/wadholm/pattern-backend/badges/quality-score.png?b=main)](https://scrutinizer-ci.com/g/wadholm/pattern-backend/?branch=main)
 [![Build Status](https://scrutinizer-ci.com/g/wadholm/pattern-backend/badges/build.png?b=main)](https://scrutinizer-ci.com/g/wadholm/pattern-backend/build-status/main)
 [![Code Coverage](https://scrutinizer-ci.com/g/wadholm/pattern-backend/badges/coverage.png?b=main)](https://scrutinizer-ci.com/g/wadholm/pattern-backend/?branch=main)
+[![Coverage Status](https://coveralls.io/repos/github/wadholm/pattern-backend/badge.svg?branch=main)](https://coveralls.io/github/wadholm/pattern-backend?branch=main)
 
 
 This API is built as a part of the course pattern at BTH.

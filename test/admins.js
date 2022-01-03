@@ -18,15 +18,8 @@ let id;
 
 before((done) => {
     mongoose.connection.collections.admins.drop(() => {
-        console.info("Dropping collection");
+        done();
     });
-    done();
-});
-
-after((done) => {
-    mongoose.connection.close(() => {
-    });
-    done();
 });
 
 describe('Admins model', () => {
