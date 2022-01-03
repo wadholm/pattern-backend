@@ -17,7 +17,7 @@ exports.admins_get_all = (req, res) => {
             res.status(200).json(response);
         })
         .catch(err => {
-            console.error(err);
+            // console.error(err);
             res.status(500).json({
                 error: err
             });
@@ -41,7 +41,7 @@ exports.admins_get_admin = (req, res) => {
             });
         })
         .catch(err => {
-            console.error(err);
+            // console.error(err);
             res.status(500).json({
                 error: err
             });
@@ -52,6 +52,11 @@ exports.admins_register = (req, res) => {
     Admin.find({ username: req.body.username })
         .exec()
         .then(admin => {
+            if (!req.body.username || !req.body.password) {
+                return res.status(401).json({
+                    message: "Username or password missing."
+                });
+            }
             if (admin.length >= 1) {
                 return res.status(409).json({
                     message: "Username already exists"
@@ -81,7 +86,7 @@ exports.admins_register = (req, res) => {
                         });
                     })
                     .catch(err => {
-                        console.error(err);
+                        // console.error(err);
                         res.status(500).json({
                             error: err
                         });
@@ -128,7 +133,7 @@ exports.admins_login = (req, res) => {
             });
         })
         .catch(err => {
-            console.error(err);
+            // console.error(err);
             res.status(500).json({
                 error: err
             });
@@ -151,7 +156,7 @@ exports.admins_update_admin = (req, res) => {
             });
         })
         .catch(err => {
-            console.error(err);
+            // console.error(err);
             res.status(500).json({
                 error: err
             });

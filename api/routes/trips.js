@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+// eslint-disable-next-line no-unused-vars
 const checkAuth = require("../middleware/check-auth");
 
 const TripsController = require("../controllers/trips");
@@ -22,7 +23,7 @@ router.patch('/:tripId', TripsController.trips_update_trip);
 // end trip by id
 router.patch('/end/:tripId', TripsController.trips_end_trip);
 
-// only for testing, change to soft delete
-router.delete('/:tripId', checkAuth, TripsController.trips_delete_trip);
+// // only for testing, change to soft delete
+// router.delete('/:tripId', checkAuth, TripsController.trips_delete_trip);
 
 module.exports = router;

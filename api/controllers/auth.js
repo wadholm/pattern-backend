@@ -77,7 +77,7 @@ exports.auth = async (req, res) => {
             error: err,
         });
     }
-    console.log("token: " + token);
+    // console.log("token: " + token);
     res.status(201).json({
         userId,
         userEmail: email,

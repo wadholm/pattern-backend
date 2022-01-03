@@ -17,19 +17,21 @@ let cityId;
 let bikeId;
 let userId;
 let tripId;
-// let stationId;
+let fakeTripId = "61d37e42dc79ead6cfe2bb1f";
 let latNW = 59.405848;
 let longNW = 13.502490;
 let latSE = 59.387455;
 let longSE = 13.535529;
 
 before((done) => {
-    const { cities, users, bikes } = mongoose.connection.collections;
+    const { cities, users, bikes, trips } = mongoose.connection.collections;
 
     cities.drop(() => {
         users.drop(() => {
             bikes.drop(() => {
-                done();
+                trips.drop(() => {
+                    done();
+                });
             });
         });
     });
@@ -100,7 +102,11 @@ describe('Trips model', () => {
                 city_id: cityId,
                 lat: latNW,
                 long: longNW,
-                battery_status: 15
+                battery_status: 15,
+                coordinates: {
+                    lat: latNW,
+                    long: longNW
+                }
             };
 
             chai.request(server)
@@ -114,20 +120,31 @@ describe('Trips model', () => {
                     done();
                 });
         });
+        it('should get 404 for required fields missing', (done) => {
+            chai.request(server)
+                .post(`/v1/trips`)
+                .end((err, res) => {
+                    if (err) {done(err);}
+                    res.should.have.status(404);
+                    res.body.should.have.property("message");
+                    res.body.message.should.equal("No valid entry found for provided bike ID.");
+                    done();
+                });
+        });
         it('201 HAPPY PATH for starting trip', (done) => {
-            let bike = {
+            let trip = {
                 user_id: userId,
                 bike_id: bikeId,
                 start_coordinates: {
                     lat: latNW,
                     long: longNW,
-                }
+                },
             };
 
             chai.request(server)
                 .post(`/v1/trips`)
                 .set('x-access-token', process.env.TEST_TOKEN)
-                .send(bike)
+                .send(trip)
                 .end((err, res) => {
                     if (err) {done(err);}
                     res.should.have.status(201);
@@ -135,89 +152,130 @@ describe('Trips model', () => {
                     res.body.should.have.property("startedTrip");
                     res.body.should.have.property("message");
                     tripId = res.body.startedTrip._id;
-                    console.log(tripId);
                     res.body.message.should.equal("Succesfully started trip");
                     done();
                 });
         });
     });
-    // describe('GET /v1/bikes/city/:cityId', () => {
-    //     it('200 HAPPY PATH for bikes by city', (done) => {
-    //         chai.request(server)
-    //             .get(`/v1/bikes/city/${cityId}`)
-    //             .set('x-access-token', process.env.TEST_TOKEN)
-    //             .end((err, res) => {
-    //                 res.should.have.status(200);
-    //                 res.body.should.be.an("object");
-    //                 done();
-    //             });
-    //     });
-    // });
-    // describe('GET /v1/bikes/:bikeId', () => {
-    //     it('200 HAPPY PATH for bikes by id', (done) => {
-    //         chai.request(server)
-    //             .get(`/v1/bikes/${bikeId}`)
-    //             .set('x-access-token', process.env.TEST_TOKEN)
-    //             .end((err, res) => {
-    //                 res.should.have.status(200);
-    //                 res.body.should.be.an("object");
-    //                 done();
-    //             });
-    //     });
-    // });
-    // describe('PUT /v1/bikes/maintenance/:bikeId', () => {
-    //     beforeEach((done) => {
-    //         let station = {
-    //             station_type: "charge_stations",
-    //             name: "Example station"
-    //         };
+    describe('GET /v1/trips/:tripId', () => {
+        it('200 HAPPY PATH for trips by id', (done) => {
+            chai.request(server)
+                .get(`/v1/trips/${tripId}`)
+                .set('x-access-token', process.env.TEST_TOKEN)
+                .end((err, res) => {
+                    if (err) {done(err);}
+                    res.should.have.status(200);
+                    res.body.should.be.an("object");
+                    res.body.should.have.property("trip");
+                    console.log(tripId);
+                    done();
+                });
+        });
+        it('should get 404 no entry for provided id', (done) => {
+            chai.request(server)
+                .get(`/v1/trips/${fakeTripId}`)
+                .set('x-access-token', process.env.TEST_TOKEN)
+                .end((err, res) => {
+                    if (err) {done(err);}
+                    res.should.have.status(404);
+                    res.body.should.be.an("object");
+                    done();
+                });
+        });
+        it('should get 500 for incorrect id', (done) => {
+            chai.request(server)
+                .get(`/v1/trips/${tripId}1`)
+                .set('x-access-token', process.env.TEST_TOKEN)
+                .end((err, res) => {
+                    if (err) {done(err);}
+                    res.should.have.status(500);
+                    res.body.should.be.an("object");
+                    done();
+                });
+        });
+    });
+    describe('GET /v1/trips/user/:userId', () => {
+        it('200 HAPPY PATH for trips by user id', (done) => {
+            chai.request(server)
+                .get(`/v1/trips/user/${userId}`)
+                .set('x-access-token', process.env.TEST_TOKEN)
+                .end((err, res) => {
+                    if (err) {done(err);}
+                    res.should.have.status(200);
+                    res.body.should.be.an("object");
+                    res.body.should.have.property("trips");
+                    console.log(userId);
+                    done();
+                });
+        });
+        it('should get 500 for incorrect id', (done) => {
+            chai.request(server)
+                .get(`/v1/trips/user/${userId}1`)
+                .set('x-access-token', process.env.TEST_TOKEN)
+                .end((err, res) => {
+                    if (err) {done(err);}
+                    res.should.have.status(500);
+                    res.body.should.be.an("object");
+                    done();
+                });
+        });
+    });
+    describe('PATCH /v1/trips/:tripId', () => {
+        it('should get 200 updating trip', (done) => {
+            let updates = [
+                {"propName": "coordinates", "value": {
+                    "lat": latSE,
+                    "long": longSE
+                }
+                }
+            ];
 
-    //         chai.request(server)
-    //             .post(`/v1/cities/${cityId}`)
-    //             .send(station)
-    //             .end((err, res) => {
-    //                 if (err) {done(err);}
-    //                 stationId = res.body.updatedStations[0]._id;
-    //                 res.should.have.status(201);
-    //                 done();
-    //             });
-    //     });
-    //     it('should get 200 setting bike to maintenance', (done) => {
-    //         let updates = {
-    //             "maintenance": true,
-    //             "charge_id": stationId
-    //         };
+            chai.request(server)
+                .patch(`/v1/trips/${tripId}`)
+                .set('x-access-token', process.env.TEST_TOKEN)
+                .send(updates)
+                .end((err, res) => {
+                    if (err) {done(err);}
+                    res.should.have.status(200);
+                    res.body.should.be.an("object");
+                    res.body.should.have.property("message");
+                    res.body.message.should.equal("Trip succesfully updated");
+                    done();
+                });
+        });
+    });
+    describe('PATCH /v1/trips/end/:tripId', () => {
+        beforeEach((done) => {
+            let updates = [
+                {"propName": "latest_trip",
+                    "value":
+                {"average_speed": 25,
+                    "distance": 180, "price": 35
+                }}
+            ];
 
-    //         chai.request(server)
-    //             .put(`/v1/bikes/maintenance/${bikeId}`)
-    //             .set('x-access-token', process.env.TEST_TOKEN)
-    //             .send(updates)
-    //             .end((err, res) => {
-    //                 res.should.have.status(200);
-    //                 res.body.should.be.an("object");
-    //                 res.body.should.have.property("message");
-    //                 res.body.message.should.equal("Maintenance succesfully updated");
-    //                 done();
-    //             });
-    //     });
-    // });
-    // describe('PATCH /v1/bikes/:id', () => {
-    //     it('should get 200 updating bike', (done) => {
-    //         let updates = [
-    //             {"propName": "charge_id", "value": stationId}
-    //         ];
-
-    //         chai.request(server)
-    //             .patch(`/v1/bikes/${bikeId}`)
-    //             .set('x-access-token', process.env.TEST_TOKEN)
-    //             .send(updates)
-    //             .end((err, res) => {
-    //                 res.should.have.status(200);
-    //                 res.body.should.be.an("object");
-    //                 res.body.should.have.property("message");
-    //                 res.body.message.should.equal("Bike succesfully updated");
-    //                 done();
-    //             });
-    //     });
-    // });
+            chai.request(server)
+                .patch(`/v1/bikes/${bikeId}`)
+                .set('x-access-token', process.env.TEST_TOKEN)
+                .send(updates)
+                .end((err, res) => {
+                    if (err) {done(err);}
+                    res.should.have.status(200);
+                    done();
+                });
+        });
+        it('should get 200 ending trip', (done) => {
+            chai.request(server)
+                .patch(`/v1/trips/end/${tripId}`)
+                .set('x-access-token', process.env.TEST_TOKEN)
+                .end((err, res) => {
+                    if (err) {done(err);}
+                    res.should.have.status(200);
+                    res.body.should.be.an("object");
+                    res.body.should.have.property("message");
+                    res.body.message.should.equal("Trip ended");
+                    done();
+                });
+        });
+    });
 });

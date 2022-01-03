@@ -37,12 +37,9 @@ exports.bikes_get_by_city = (req, res) => {
 
                 return res.status(200).json(response);
             }
-            res.status(404).json({
-                message: "No valid entries found for provided city."
-            });
         })
         .catch(err => {
-            console.error(err);
+            // console.error(err);
             res.status(500).json({
                 error: err
             });
@@ -61,12 +58,12 @@ exports.bikes_get_bike = (req, res) => {
                     bike: doc
                 });
             }
-            res.status(404).json({
+            return res.status(404).json({
                 message: "No valid entry found for provided ID."
             });
         })
         .catch(err => {
-            console.error(err);
+            // console.error(err);
             res.status(500).json({
                 error: err
             });
@@ -229,7 +226,7 @@ exports.bikes_maintenance = (req, res) => {
             });
         })
         .catch(err => {
-            console.error(err);
+            // console.error(err);
             res.status(500).json({
                 error: err
             });

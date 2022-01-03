@@ -7,6 +7,13 @@ exports.api_register = (req, res) => {
     ApiUser.find({ email: req.body.email })
         .exec()
         .then(api => {
+            if (!req.body.email) {
+                res.render("api-result", {
+                    api_key: "",
+                    message: "Email missing.",
+                    note: "Please try again."}
+                );
+            }
             if (api.length >= 1) {
                 res.render("api-result", {
                     api_key: "",
@@ -44,8 +51,9 @@ exports.api_register = (req, res) => {
                         );
                     }
                 })
+                // eslint-disable-next-line no-unused-vars
                 .catch(err => {
-                    console.error(err);
+                    // console.error(err);
                     res.render("api-result", {
                         api_key: "",
                         message: "Something went wrong!",

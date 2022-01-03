@@ -22,7 +22,34 @@ before((done) => {
 
 describe('Api Users model', () => {
     describe('POST /v1/api/register', () => {
+        it('should get 200 for missing email', (done) => {
+            let user = {
+            };
+
+            chai.request(server)
+                .post("/v1/api/register")
+                .send(user)
+                .end((err, res) => {
+                    if (err) {done(err);}
+                    res.should.have.status(200);
+                    done();
+                });
+        });
         it('should get 200 registering api user', (done) => {
+            let user = {
+                email: "test@example.com"
+            };
+
+            chai.request(server)
+                .post("/v1/api/register")
+                .send(user)
+                .end((err, res) => {
+                    if (err) {done(err);}
+                    res.should.have.status(200);
+                    done();
+                });
+        });
+        it('should get 200 for api user already exists', (done) => {
             let user = {
                 email: "test@example.com"
             };

@@ -17,7 +17,7 @@ exports.users_get_all = (req, res) => {
             res.status(200).json(response);
         })
         .catch(err => {
-            console.error(err);
+            // console.error(err);
             res.status(500).json({
                 error: err
             });
@@ -41,7 +41,7 @@ exports.users_get_user = (req, res) => {
             });
         })
         .catch(err => {
-            console.error(err);
+            // console.error(err);
             res.status(500).json({
                 error: err
             });
@@ -54,10 +54,7 @@ exports.users_register = (req, res) => {
         .then(user => {
             if (!req.body.email || !req.body.password) {
                 return res.status(401).json({
-                    data: {
-                        title: "Email or password missing.",
-                        message: "Email or password missing."
-                    }
+                    message: "Email or password missing."
                 });
             }
 
@@ -106,7 +103,7 @@ exports.users_register = (req, res) => {
                         });
                     })
                     .catch(err => {
-                        console.error(err);
+                        // console.error(err);
                         res.status(500).json({
                             error: err
                         });
@@ -153,7 +150,7 @@ exports.users_login = (req, res) => {
             });
         })
         .catch(err => {
-            console.error(err);
+            // console.error(err);
             res.status(500).json({
                 error: err
             });
@@ -189,7 +186,7 @@ exports.users_update_user = (req, res) => {
             });
         })
         .catch(err => {
-            console.error(err);
+            // console.error(err);
             res.status(500).json({
                 error: err
             });
@@ -207,7 +204,7 @@ exports.users_update_user = (req, res) => {
 //             });
 //         })
 //         .catch(err => {
-//             console.error(err);
+//              console.error(err);
 //             res.status(500).json({
 //                 error: err
 //             });

@@ -15,7 +15,7 @@ exports.cities_get_all = (req, res) => {
             res.status(200).json(response);
         })
         .catch(err => {
-            console.error(err);
+            // console.error(err);
             res.status(500).json({
                 error: err
             });
@@ -39,7 +39,7 @@ exports.cities_get_city = (req, res) => {
             });
         })
         .catch(err => {
-            console.error(err);
+            // console.error(err);
             res.status(500).json({
                 error: err
             });
@@ -76,7 +76,7 @@ exports.cities_get_stations = (req, res) => {
             });
         })
         .catch(err => {
-            console.error(err);
+            // console.error(err);
             res.status(500).json({
                 error: err
             });
@@ -101,7 +101,7 @@ exports.cities_get_station = (req, res) => {
             });
         })
         .catch(err => {
-            console.error(err);
+            // console.error(err);
             res.status(500).json({
                 error: err
             });
@@ -125,7 +125,7 @@ exports.cities_add_city = (req, res) => {
             });
         })
         .catch(err => {
-            console.error(err);
+            // console.error(err);
             res.status(500).json({
                 error: err
             });
@@ -148,7 +148,7 @@ exports.cities_update_city = (req, res) => {
             });
         })
         .catch(err => {
-            console.error(err);
+            // console.error(err);
             res.status(500).json({
                 error: err
             });
@@ -181,14 +181,14 @@ exports.cities_add_station = (req, res) => {
                     });
                 })
                 .catch(err => {
-                    console.error(err);
+                    // console.error(err);
                     return res.status(500).json({
                         error: err
                     });
                 });
         })
         .catch(err => {
-            console.error(err);
+            // console.error(err);
             res.status(500).json({
                 error: err
             });
@@ -214,7 +214,7 @@ exports.cities_update_station = async (req, res) => {
             });
         })
         .catch(err => {
-            console.error(err);
+            // console.error(err);
             res.status(500).json({
                 error: err
             });
@@ -233,7 +233,7 @@ exports.cities_update_station = async (req, res) => {
 //             });
 //         })
 //         .catch(err => {
-//             console.error(err);
+//              console.error(err);
 //             res.status(500).json({
 //                 error: err
 //             });
