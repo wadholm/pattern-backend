@@ -184,6 +184,7 @@ exports.trips_end_trip = (req, res) => {
                             distance: currentBike.distance, // get from bikes
                             price: currentBike.price // get from bikes
                         }}, {new: true})
+                        .select("-__v")
                         .exec()
                         .then((doc) => {
                             return res.status(200).json({
