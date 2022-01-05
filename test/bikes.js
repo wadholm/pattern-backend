@@ -79,7 +79,7 @@ describe('Bikes model', () => {
                 city_id: cityId,
                 lat: latNW,
                 long: longNW,
-                battery_status: 15
+                battery_status: process.env.LOW_BATTERY
             };
 
             chai.request(server)

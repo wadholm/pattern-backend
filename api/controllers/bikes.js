@@ -138,7 +138,7 @@ exports.bikes_update_bike = (req, res) => {
                 if (
                     ops.propName === "charge_id" &&
                     ops.value &&
-                    doc.battery_status < 20
+                    doc.battery_status < process.env.BATTERY_LIMIT
                 ) {
                     //charge battery
                     updateOps["bike_status"] = "unavailable";

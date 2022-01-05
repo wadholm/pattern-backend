@@ -10,7 +10,9 @@ const latestTripSchema = mongoose.Schema({
     _id: false,
     average_speed: { type: Number },
     distance: { type: Number },
-    price: { type: Number }
+    price: { type: Number },
+    charge_id: { type: mongoose.Schema.Types.ObjectId, ref: "Station", default: null},
+    parking_id: { type: mongoose.Schema.Types.ObjectId, ref: "Station", default: null}
 });
 
 const bikeSchema = mongoose.Schema({

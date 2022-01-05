@@ -75,7 +75,8 @@ exports.trips_start_trip = (req, res) => {
     let userId = req.body.user_id;
     let bikeId = req.body.bike_id;
 
-    Bike.findById(bikeId)
+    // update bike_status to unavailable
+    Bike.findByIdAndUpdate(bikeId, { bike_status: 'unavailable' })
         .select("-__v")
         .exec()
         .then(bike => {
@@ -147,6 +148,8 @@ exports.trips_end_trip = (req, res) => {
         price: "" // get from bikes
     };
 
+    // update bike to available
+
     Trip.findById(id)
         .select("-__v")
         .exec()
@@ -157,7 +160,8 @@ exports.trips_end_trip = (req, res) => {
                 });
             }
             bikeId = trip.bike_id.toJSON();
-            Bike.findById(bikeId)
+            // Bike.findById(bikeId)
+            Bike.findByIdAndUpdate(bikeId, { bike_status: 'available' })
                 .select("-__v")
                 .exec()
                 .then(bike => {
@@ -172,18 +176,19 @@ exports.trips_end_trip = (req, res) => {
                         distance: bike.latest_trip.distance,
                         price: bike.latest_trip.price
                     };
-                    Trip.updateOne({ _id: id },
+                    Trip.findByIdAndUpdate({ _id: id },
                         { $set: {
                             stop_time: new Date().toJSON(),
                             stop_coordinates: currentBike.stop_coordinates, // get from bike
                             average_speed: currentBike.average_speed, // get from bikes
                             distance: currentBike.distance, // get from bikes
                             price: currentBike.price // get from bikes
-                        }})
+                        }}, {new: true})
                         .exec()
-                        .then(() => {
+                        .then((doc) => {
                             return res.status(200).json({
-                                message: "Trip ended"
+                                message: "Trip ended",
+                                endedTrip: doc
                             });
                         })
                         .catch(err => {
