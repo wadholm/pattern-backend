@@ -158,6 +158,7 @@ describe('Bikes model', () => {
 
             chai.request(server)
                 .post(`/v1/cities/${cityId}`)
+                .set('x-access-token', process.env.TEST_TOKEN)
                 .send(station)
                 .end((err, res) => {
                     if (err) {done(err);}

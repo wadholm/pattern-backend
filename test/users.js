@@ -160,6 +160,7 @@ describe('Users model', () => {
         it('200 HAPPY PATH for users', (done) => {
             chai.request(server)
                 .get("/v1/users")
+                .set('x-access-token', token)
                 .end((err, res) => {
                     if (err) {done(err);}
                     res.should.have.status(200);
@@ -212,6 +213,7 @@ describe('Users model', () => {
 
             chai.request(server)
                 .patch(`/v1/users/${id}`)
+                .set('x-access-token', token)
                 .send(updates)
                 .end((err, res) => {
                     if (err) {done(err);}
@@ -231,6 +233,7 @@ describe('Users model', () => {
 
             chai.request(server)
                 .patch(`/v1/users/${id}1`)
+                .set('x-access-token', token)
                 .send(updates)
                 .end((err, res) => {
                     if (err) {done(err);}

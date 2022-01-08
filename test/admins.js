@@ -194,6 +194,7 @@ describe('Admins model', () => {
 
             chai.request(server)
                 .patch(`/v1/admins/${id}`)
+                .set('x-access-token', token)
                 .send(updates)
                 .end((err, res) => {
                     if (err) {done(err);}
@@ -211,6 +212,7 @@ describe('Admins model', () => {
 
             chai.request(server)
                 .patch(`/v1/users/${id}1`)
+                .set('x-access-token', token)
                 .send(updates)
                 .end((err, res) => {
                     if (err) {done(err);}

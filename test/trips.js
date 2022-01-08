@@ -123,6 +123,7 @@ describe('Trips model', () => {
         it('should get 404 for required fields missing', (done) => {
             chai.request(server)
                 .post(`/v1/trips`)
+                .set('x-access-token', process.env.TEST_TOKEN)
                 .end((err, res) => {
                     if (err) {done(err);}
                     res.should.have.status(404);

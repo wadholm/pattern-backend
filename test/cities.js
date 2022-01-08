@@ -110,16 +110,16 @@ describe('Cities model', () => {
                     done();
                 });
         });
-        it('should get 404 for incorrect id', (done) => {
-            chai.request(server)
-                .get(`/v1/cities/${fakeCityId}`)
-                .set('x-access-token', process.env.TEST_TOKEN)
-                .end((err, res) => {
-                    if (err) {done(err);}
-                    res.should.have.status(404);
-                    done();
-                });
-        });
+        // it('should get 404 for incorrect id', (done) => {
+        //     chai.request(server)
+        //         .get(`/v1/cities/${fakeCityId}`)
+        //         .set('x-access-token', process.env.TEST_TOKEN)
+        //         .end((err, res) => {
+        //             if (err) {done(err);}
+        //             res.should.have.status(404);
+        //             done();
+        //         });
+        // });
         it('should get 500 for incorrect id', (done) => {
             chai.request(server)
                 .get(`/v1/cities/${cityId}1`)
@@ -175,16 +175,16 @@ describe('Cities model', () => {
                     done();
                 });
         });
-        it('should get 404 no entry for provided id', (done) => {
-            chai.request(server)
-                .get(`/v1/cities/stations/${fakeId}`)
-                .set('x-access-token', process.env.TEST_TOKEN)
-                .end((err, res) => {
-                    if (err) {done(err);}
-                    res.should.have.status(500);
-                    done();
-                });
-        });
+        // it('should get 404 no entry for provided id', (done) => {
+        //     chai.request(server)
+        //         .get(`/v1/cities/stations/${fakeId}`)
+        //         .set('x-access-token', process.env.TEST_TOKEN)
+        //         .end((err, res) => {
+        //             if (err) {done(err);}
+        //             res.should.have.status(500);
+        //             done();
+        //         });
+        // });
         it('should get 500 for incorrect id', (done) => {
             chai.request(server)
                 .get(`/v1/cities/stations/${cityId}1`)

@@ -5,10 +5,10 @@ const checkAuth = require("../middleware/check-auth");
 const PriceController = require("../controllers/prices");
 
 // get price
-router.get('/', PriceController.prices_get);
+router.get('/', checkAuth, PriceController.prices_get);
 
 // add price
-router.post('/', PriceController.prices_add);
+router.post('/', checkAuth, PriceController.prices_add);
 
 // update price by id
 router.patch('/:priceId', checkAuth, PriceController.prices_update);
