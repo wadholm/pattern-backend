@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 
 const Bike = require("../models/bike");
 
+
 exports.bikes_get_all = (req, res) => {
     Bike.find()
         .select("-__v")

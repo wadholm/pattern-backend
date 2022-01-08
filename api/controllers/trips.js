@@ -75,8 +75,18 @@ exports.trips_start_trip = (req, res) => {
     let userId = req.body.user_id;
     let bikeId = req.body.bike_id;
 
-    // update bike_status to unavailable
-    Bike.findByIdAndUpdate(bikeId, { bike_status: 'unavailable' })
+    let currentBike = {
+        charge_id: null,
+        parking_id: null,
+        bike_status: "unavailable",
+        latest_trip: {
+            distance: 0,
+            price: 0,
+            average_speed: 0
+        }
+    };
+
+    Bike.findByIdAndUpdate(bikeId, currentBike)
         .select("-__v")
         .exec()
         .then(bike => {

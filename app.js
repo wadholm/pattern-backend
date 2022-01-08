@@ -8,7 +8,9 @@ const mongoose = require("mongoose");
 
 require('dotenv').config();
 
-const CLIENT_HOME_PAGE_URL = "http://localhost:3000";
+const ADMIN_URL = "http://localhost:3000";
+const USER_APP = "http://localhost:3001";
+const USER_URL = "http://localhost:3002";
 
 const app = express();
 
@@ -38,10 +40,11 @@ app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x
 
 // Cors
 app.use(cors({
-    origin: CLIENT_HOME_PAGE_URL, // allow server to accept request from different origin
+    origin: [ADMIN_URL, USER_APP, USER_URL], // allow server to accept request from different origin
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
     credentials: true // allow session cookie from browser to pass through
 }));
+
 
 // Middleware for all routes
 app.use((req, res, next) => {
