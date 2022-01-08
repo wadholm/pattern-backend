@@ -2,7 +2,7 @@
 /** global: server */
 
 
-process.env.NODE_ENV = 'test';
+// process.env.NODE_ENV = 'test';
 
 const chai = require('chai');
 const chaiHttp = require('chai-http');
@@ -186,24 +186,24 @@ describe('Bikes model', () => {
                     done();
                 });
         });
-        it('should get 200 unsetting bike maintenance', (done) => {
-            let updates = {
-                "maintenance": false
-            };
+        // it('should get 200 unsetting bike maintenance', (done) => {
+        //     let updates = {
+        //         "maintenance": false
+        //     };
 
-            chai.request(server)
-                .put(`/v1/bikes/maintenance/${bikeId}`)
-                .set('x-access-token', process.env.TEST_TOKEN)
-                .send(updates)
-                .end((err, res) => {
-                    if (err) {done(err);}
-                    res.should.have.status(200);
-                    res.body.should.be.an("object");
-                    res.body.should.have.property("message");
-                    res.body.message.should.equal("Maintenance succesfully updated");
-                    done();
-                });
-        });
+        //     chai.request(server)
+        //         .put(`/v1/bikes/maintenance/${bikeId}`)
+        //         .set('x-access-token', process.env.TEST_TOKEN)
+        //         .send(updates)
+        //         .end((err, res) => {
+        //             if (err) {done(err);}
+        //             res.should.have.status(200);
+        //             res.body.should.be.an("object");
+        //             res.body.should.have.property("message");
+        //             res.body.message.should.equal("Maintenance succesfully updated");
+        //             done();
+        //         });
+        // });
         it('should get 500 for incorrect id', (done) => {
             let updates = {
                 "maintenance": false

@@ -4,7 +4,7 @@
   "description": "api for pattern project",
   "main": "index.js",
   "scripts": {
-    "test": "nyc --reporter=html --reporter=text --reporter=clover mocha --exit --timeout 15000",
+    "test": "NODE_ENV=test nyc --reporter=html --reporter=text --reporter=clover mocha --exit --timeout 10000",
     "posttest": "npm run eslint",
     "coverage": "nyc report --reporter=text-lcov | coveralls",
     "start": "node app.js",
@@ -31,6 +31,7 @@
     "chai": "^4.3.4",
     "chai-http": "^4.3.0",
     "coveralls": "^3.1.1",
+    "cross-env": "^7.0.3",
     "eslint": "^7.32.0",
     "eslint-plugin-react": "^7.25.1",
     "javascript-style-guide": "^1.0.1",

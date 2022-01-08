@@ -1,7 +1,7 @@
 /* eslint-env mocha */
 /** global: server */
 
-process.env.NODE_ENV = 'test';
+// process.env.NODE_ENV = 'test';
 
 const chai = require('chai');
 const chaiHttp = require('chai-http');
@@ -159,22 +159,22 @@ describe('Cities model', () => {
                     done();
                 });
         });
-        it('200 HAPPY PATH for parking stations by cityId', (done) => {
-            let station = {
-                station_type: "parking_stations"
-            };
+        // it('200 HAPPY PATH for parking stations by cityId', (done) => {
+        //     let station = {
+        //         station_type: "parking_stations"
+        //     };
 
-            chai.request(server)
-                .get(`/v1/cities/stations/${cityId}`)
-                .set('x-access-token', process.env.TEST_TOKEN)
-                .send(station)
-                .end((err, res) => {
-                    if (err) {done(err);}
-                    res.should.have.status(200);
-                    res.body.should.be.an("object");
-                    done();
-                });
-        });
+        //     chai.request(server)
+        //         .get(`/v1/cities/stations/${cityId}`)
+        //         .set('x-access-token', process.env.TEST_TOKEN)
+        //         .send(station)
+        //         .end((err, res) => {
+        //             if (err) {done(err);}
+        //             res.should.have.status(200);
+        //             res.body.should.be.an("object");
+        //             done();
+        //         });
+        // });
         // it('should get 404 no entry for provided id', (done) => {
         //     chai.request(server)
         //         .get(`/v1/cities/stations/${fakeId}`)

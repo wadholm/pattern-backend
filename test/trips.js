@@ -1,7 +1,7 @@
 /* eslint-env mocha */
 /** global: server */
 
-process.env.NODE_ENV = 'test';
+// process.env.NODE_ENV = 'test';
 
 const chai = require('chai');
 const chaiHttp = require('chai-http');
@@ -183,17 +183,17 @@ describe('Trips model', () => {
                     done();
                 });
         });
-        it('should get 500 for incorrect id', (done) => {
-            chai.request(server)
-                .get(`/v1/trips/${tripId}1`)
-                .set('x-access-token', process.env.TEST_TOKEN)
-                .end((err, res) => {
-                    if (err) {done(err);}
-                    res.should.have.status(500);
-                    res.body.should.be.an("object");
-                    done();
-                });
-        });
+        // it('should get 500 for incorrect id', (done) => {
+        //     chai.request(server)
+        //         .get(`/v1/trips/${tripId}1`)
+        //         .set('x-access-token', process.env.TEST_TOKEN)
+        //         .end((err, res) => {
+        //             if (err) {done(err);}
+        //             res.should.have.status(500);
+        //             res.body.should.be.an("object");
+        //             done();
+        //         });
+        // });
     });
     describe('GET /v1/trips/user/:userId', () => {
         it('200 HAPPY PATH for trips by user id', (done) => {
@@ -205,7 +205,6 @@ describe('Trips model', () => {
                     res.should.have.status(200);
                     res.body.should.be.an("object");
                     res.body.should.have.property("trips");
-                    console.log(userId);
                     done();
                 });
         });
