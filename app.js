@@ -74,10 +74,12 @@ if (process.env.NODE_ENV === 'test') {
     dsn = "mongodb://127.0.0.1:27017/testdb";
 } else {
     // MongoDB Atlas
-    dsn = `
-    mongodb+srv://${process.env.DB_USER}:${process.env.DB_PW}` +
-    `@${process.env.DB_CLUSTER}.jr7l8.mongodb.net/${process.env.DB_NAME}` +
-    `?retryWrites=true&w=majority`;
+    dsn = `mongodb://${process.env.DB_USER}:${process.env.DB_PW}` +
+    `@${process.env.DB_CLUSTER}-shard-00-00.jr7l8.mongodb.net:27017,` +
+    `${process.env.DB_CLUSTER}-shard-00-01.jr7l8.mongodb.net:27017,` +
+    `${process.env.DB_CLUSTER}-shard-00-02.jr7l8.mongodb.net:27017/` +
+    `${process.env.DB_NAME}?ssl=true&replicaSet=atlas-7av2h0-shard-0&` +
+    `authSource=admin&retryWrites=true&w=majority`;
 }
 
 mongoose.connect(
