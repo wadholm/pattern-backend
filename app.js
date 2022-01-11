@@ -94,7 +94,7 @@ mongoose.connect(
 )
 // Start up server
     .then(() => {
-        app.listen(port, () => {
+        app.listen(process.env.PORT || port, () => {
             console.log(`Pattern API with Mongoose listening on port ${port}!`);
         });
     })
