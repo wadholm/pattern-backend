@@ -8,14 +8,15 @@ const mongoose = require("mongoose");
 
 require('dotenv').config();
 
-const ADMIN_URL = "http://localhost:3000";
-const USER_APP = "http://localhost:3001";
-const USER_URL = "http://localhost:3002";
+// const ADMIN_URL = "http://localhost:3000";
+// const USER_APP = "http://localhost:3001";
+// const USER_URL = "http://localhost:3002";
 
 const app = express();
 
 //Routes
 const index = require('./api/routes/index');
+const key = require('./api/routes/api_key');
 const api = require('./api/routes/api_users');
 const users = require('./api/routes/users');
 const admins = require('./api/routes/admins');
@@ -40,7 +41,7 @@ app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x
 
 // Cors
 app.use(cors({
-    origin: [ADMIN_URL, USER_APP, USER_URL], // allow server to accept request from different origin
+    origin: "*", // allow server to accept request from different origin
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
     credentials: true // allow session cookie from browser to pass through
 }));
@@ -52,8 +53,10 @@ app.use((req, res, next) => {
 });
 
 // Add routes
+app.use('/', index);
+app.use('/key', key);
+
 // current version v1
-app.use('/v1/', index);
 app.use('/v1/api', api);
 app.use('/v1/users', users);
 app.use('/v1/admins', admins);

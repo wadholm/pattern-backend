@@ -4,20 +4,18 @@ FROM node:12.18.1
 
 RUN apt-get update
 
+ENV NODE_ENV=production
+
 WORKDIR /pattern-backend
 
 COPY package*.json ./
 
-RUN npm install
+RUN npm install --production
 
 COPY app.js ./
 
 COPY ./api ./api
 
 COPY ./views ./views
-
-COPY ./css ./css
-
-COPY ./test ./test
 
 CMD [ "npm", "start" ]

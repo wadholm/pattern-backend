@@ -2,6 +2,16 @@
 
 <h1>Pattern API documentation</h1>
 
+<h2>Content</h2>
+
+    <ul>
+        <li><a class="link" href="#api">Api Key</a></li>
+        <li><a class="link" href="#users">Users</a></li>
+        <li><a class="link" href="#admins">Admins</a></li>
+        <li><a class="link" href="#bikes">Bikes</a></li>
+    </ul>
+
+<section id="api">
 <h2>API key</h2>
 
 <p>An API key will be required for all requests.</p>
@@ -17,34 +27,8 @@
     "message": "Auth failed"
 }
 </pre>
+</section>
 
-<h2>users</h2>
-
-<p>A user has the following attributes:</p>
-
-<pre>
-_id
-firstname
-lastname
-email
-password
-phone
-city
-payment_method
-card_information
-balance
-account_status
-</pre>
-
-<h2>admins</h2>
-
-<p>An admin has the following attributes:</p>
-
-<pre>
-_id
-username
-password
-</pre>
 
 <h2>cities</h2>
 
@@ -66,22 +50,6 @@ parking_stations
 _id
 name
 coordinates
-</pre>
-
-<h2>bikes</h2>
-
-<p>A bike has the following attributes:</p>
-
-<pre>
-_id
-city_id
-charge_id
-parking_id
-bike_status
-battery_status
-coordinates
-maintenance
-latest_trip
 </pre>
 
 <h2>trips</h2>
@@ -121,6 +89,26 @@ discount
 _id
 email
 api_key
+</pre>
+
+<section id="users">
+
+<h2>Users</h2>
+
+<p>A user has the following attributes:</p>
+
+<pre>
+_id
+firstname
+lastname
+email
+password
+phone
+city
+payment_method
+card_information
+balance
+account_status
 </pre>
 
 <h2>To get all users:</h2>
@@ -230,12 +218,13 @@ api_key
 firstname
 lastname
 email
+password
+
 </pre>
 
 <p>Optional parameters:</p>
 
 <pre>
-password
 phone
 city
 payment_method
@@ -248,15 +237,14 @@ account_status
 
 <pre>
 {
-    "message": "User succesfully updated",
-    "updatedUser": {
-        "_id": "619f6ee3d0b6c914a2b58514",
+    "message": "Succesfully created a user",
+    "createdUser": {
+        "_id": "61dda25193852f4e487030d6",
         "firstname": "John",
         "lastname": "Doe",
-        "email": "john@exampple.com",
-        "password": "password",
-        "city": "61a76026bb53f131584de9b1"
-        "phone": "+4412345678",
+        "email": "test123@example.com",
+        "password": "$2a$10$d0qyTB91FZP8k2jlPup07uDyRJvymzDl.vE.dWIxDrx6nJulKHFba",
+        "phone": "unknown",
         "payment_method": "refill",
         "card_information": "unknown",
         "balance": 0,
@@ -264,6 +252,372 @@ account_status
     }
 }
 </pre>
+
+
+<h2>Login a user:</h2>
+
+<pre>POST /v1/users/login</pre>
+
+<p>Required parameters:</p>
+
+<pre>
+email
+password
+</pre>
+
+<p>Result:</p>
+
+<pre>
+{
+    "message": "Auth succesful",
+    "token": "exampletoken"
+}
+</pre>
+
+<section id="admins">
+<h2>Admins</h2>
+
+<p>An admin has the following attributes:</p>
+
+<pre>
+_id
+username
+password
+</pre>
+
+<h2>To get all admins:</h2>
+
+<pre>GET /v1/admins</pre>
+
+<p>Result:</p>
+
+<pre>
+{
+    "count": 2,
+    "admins": [
+        {
+            "_id": "61a4fe55e71098d023a43d15",
+            "username": "admin1",
+            "password": "password"
+        },
+        {
+            "_id": "61a79627f73fa3631949abfc",
+            "username": "admin2",
+            "password": "password"
+        }
+    ]
+}
+</pre>
+</section>
+
+<h2>To get admin by id:</h2>
+
+<pre>GET /v1/admins/:admin_id</pre>
+
+<p>Result:</p>
+
+<pre>
+{
+    "admin": {
+        "_id": "61a4fe55e71098d023a43d15",
+        "username": "admin1",
+        "password": "password"
+    }
+}
+</pre>
+
+
+<h2>To update an admin by id:</h2>
+
+<pre>PATCH /v1/admins/:admin_id</pre>
+
+<p>Example:</p>
+
+<pre>[
+    {"propName": "password", "value": "newpassword"}
+]</pre>
+
+<p>Result:</p>
+
+<pre>
+{
+    "message": "Admin succesfully updated",
+    "updatedAdmin": {
+        "_id": "61a4fe55e71098d023a43d15",
+        "username": "admin1",
+        "password": "newpassword"
+    }
+}
+</pre>
+</section>
+<section id="bikes">
+
+
+<h2>Bikes</h2>
+<p>A bike has the following attributes:</p>
+
+<pre>
+_id
+city_id
+charge_id
+parking_id
+bike_status
+battery_status
+coordinates
+maintenance
+latest_trip
+</pre>
+
+<h2>To get all bikes:</h2>
+
+<pre>GET /v1/bikes</pre>
+
+<p>Result:</p>
+
+<pre>
+
+{
+    "count": 3,
+    "bikes": [
+        {
+            "_id": "61a8aec803d845a108c53774",
+            "city_id": "61a7603dbb53f131584de9b3",
+            "charge_id": null,
+            "parking_id": null,
+            "bike_status": "available",
+            "battery_status": 72.19999999999999,
+            "coordinates": {
+                "lat": 59.331536,
+                "long": 18.062855499999998
+            },
+            "maintenance": false,
+            "latest_trip": {
+                "average_speed": 0,
+                "distance": 0,
+                "price": 0,
+                "charge_id": null,
+                "parking_id": null
+            }
+        },
+        {
+            "_id": "61a8af7403d845a108c53779",
+            "city_id": "61a76026bb53f131584de9b1",
+            "charge_id": null,
+            "parking_id": null,
+            "bike_status": "available",
+            "battery_status": 100,
+            "coordinates": {
+                "lat": 56.1812775,
+                "long": 15.5907245
+            },
+            "maintenance": false,
+            "latest_trip": {
+                "average_speed": 0,
+                "distance": 0,
+                "price": 0,
+                "charge_id": null,
+                "parking_id": null
+            }
+        },
+        {
+            "_id": "61abbdfed3e8bc22cfa13a90",
+            "city_id": "61a76026bb53f131584de9b1",
+            "charge_id": null,
+            "parking_id": null,
+            "bike_status": "available",
+            "battery_status": 91,
+            "coordinates": {
+                "lat": 56.173219,
+                "long": 15.589483
+            },
+            "maintenance": false,
+            "latest_trip": {
+                "average_speed": 39,
+                "distance": 9,
+                "price": 88,
+                "charge_id": null,
+                "parking_id": null
+            }
+        }
+    ]
+}
+</pre>
+
+<h2>To get bike by city:</h2>
+
+<pre>GET /v1/bikes/city/:city_id</pre>
+
+<p>Result:</p>
+
+<pre>
+{
+    "count": 2,
+    "bikes": [
+        {
+            "_id": "61a8af7403d845a108c53779",
+            "city_id": "61a76026bb53f131584de9b1",
+            "charge_id": null,
+            "parking_id": null,
+            "bike_status": "available",
+            "battery_status": 100,
+            "coordinates": {
+                "lat": 56.1812775,
+                "long": 15.5907245
+            },
+            "maintenance": false,
+            "latest_trip": {
+                "average_speed": 0,
+                "distance": 0,
+                "price": 0,
+                "charge_id": null,
+                "parking_id": null
+            }
+        },
+        {
+            "_id": "61abbdfed3e8bc22cfa13a90",
+            "city_id": "61a76026bb53f131584de9b1",
+            "charge_id": null,
+            "parking_id": null,
+            "bike_status": "available",
+            "battery_status": 91,
+            "coordinates": {
+                "lat": 56.173219,
+                "long": 15.589483
+            },
+            "maintenance": false,
+            "latest_trip": {
+                "average_speed": 39,
+                "distance": 9,
+                "price": 88,
+                "charge_id": null,
+                "parking_id": null
+            }
+        }
+    ]
+}
+</pre>
+
+
+<h2>To get bike by id:</h2>
+
+<pre>GET /v1/bikes/:bike_id</pre>
+
+<p>Result:</p>
+
+<pre>
+{
+    "bike": {
+        "_id": "61a8aec803d845a108c53774",
+        "city_id": "61a7603dbb53f131584de9b3",
+        "charge_id": null,
+        "parking_id": null,
+        "bike_status": "available",
+        "battery_status": 72.19999999999999,
+        "coordinates": {
+            "lat": 59.331536,
+            "long": 18.062855499999998
+        },
+        "maintenance": false,
+        "latest_trip": {
+            "average_speed": 0,
+            "distance": 0,
+            "price": 0,
+            "charge_id": null,
+            "parking_id": null
+        }
+    }
+}
+</pre>
+
+
+<h2>Add a bike:</h2>
+
+<pre>POST /v1/bikes</pre>
+
+<p>Required parameters:</p>
+
+<pre>
+city_id
+</pre>
+
+<p>Optional parameters:</p>
+
+<pre>
+charge_id
+parking_id
+bike_status
+maintenance
+coordinates
+latest_trip
+</pre>
+
+<p>Result:</p>
+
+<pre>
+{
+    "message": "Succesfully added a bike",
+    "addedBike": {
+        "_id": "61a8aec803d845a108c53774",
+        "city_id": "61a7603dbb53f131584de9b3",
+        "charge_id": null,
+        "parking_id": null,
+        "bike_status": "available",
+        "battery_status": 72.19999999999999,
+        "coordinates": {
+            "lat": 59.331536,
+            "long": 18.062855499999998
+        },
+        "maintenance": false,
+        "latest_trip": {
+            "average_speed": 0,
+            "distance": 0,
+            "price": 0,
+            "charge_id": null,
+            "parking_id": null
+        }
+    }
+}
+</pre>
+
+
+<h2>To update a bike by id:</h2>
+
+<pre>PATCH /v1/bikes/:bike_id</pre>
+
+<p>Example:</p>
+
+<pre>[
+    {"propName": "bike_status", "value": "unavailable"}
+]</pre>
+
+<p>Result:</p>
+
+<pre>
+{
+    "message": "bike succesfully updated",
+}
+</pre>
+
+<h2>Set maintenance for bike by id:</h2>
+
+<pre>PATCH /v1/bikes/maintenance/:bike_id</pre>
+
+<p>Example:</p>
+
+<pre>{
+    "maintenance": true,
+    "charge_id": "61a93c3ce146af1a898bdb34"
+}</pre>
+
+<p>Result:</p>
+
+<pre>
+{
+    "message": "Maintenance succesfully updated",
+}
+</pre>
+</section>
+
 
 
 <%- include("footer"); %>

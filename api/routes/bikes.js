@@ -20,9 +20,6 @@ router.post('/', checkAuth, BikesController.bikes_add_bike);
 // update bike by id
 router.patch('/:bikeId', checkAuth, BikesController.bikes_update_bike);
 
-// // add bike
-// router.put('/:bikeId', BikesController.bikes_add_bike);
-
 // maintenance for bike by id
 router.put('/maintenance/:bikeId', checkAuth, BikesController.bikes_maintenance);
 

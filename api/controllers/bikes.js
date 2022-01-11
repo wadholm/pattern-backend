@@ -173,28 +173,6 @@ exports.bikes_update_bike = (req, res) => {
         });
 };
 
-// exports.bikes_update_bike = (req, res) => {
-//     const id = req.params.bikeId;
-//     const updateOps = {};
-
-//     for (const ops of req.body) {
-//         updateOps[ops.propName] = ops.value;
-//     }
-
-//     Bike.updateOne({ _id: id }, { $set: updateOps })
-//         .exec()
-//         .then(() => {
-//             res.status(200).json({
-//                 message: "Bike succesfully updated"
-//             });
-//         })
-//         .catch(err => {
-//             console.error(err);
-//             res.status(500).json({
-//                 error: err
-//             });
-//         });
-// };
 
 exports.bikes_maintenance = (req, res) => {
     const id = req.params.bikeId;

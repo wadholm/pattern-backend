@@ -106,7 +106,7 @@ api_key
 
 #### Request api key
 ```
-http://localhost:1337/v1/auth/api_key
+http://localhost:1337/key
 ```
 
 #### To get all users
