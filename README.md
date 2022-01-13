@@ -7,6 +7,9 @@
 
 This API is built as a part of the course pattern at BTH.
 
+### REST-API with manual is available at:
+https://pattern-api.herokuapp.com/
+
 ### users
 
 A user has the following attributes:
@@ -108,44 +111,6 @@ api_key
 ```
 http://localhost:1337/key
 ```
-
-#### To get all users
-```
-GET /v1/users
-```
-Result:
-```
-{
-    "count": 2,
-    "users": [
-        {
-            "_id": "619f6ee3d0b6c914a2b58514",
-            "firstname": "John",
-            "lastname": "Doe",
-            "email": "john@exampple.com",
-            "password": "password",
-            "phone": "+4412345678",
-            "payment_method": "unknown",
-            "card_information": "unknown",
-            "balance": 0,
-            "account_status": "active"
-        },
-        {
-            "_id": "619f767f6736ee4a118b900a",
-            "firstname": "Jane",
-            "lastname": "Doe",
-            "email": "jane@example.com",
-            "password": "pass",
-            "phone": "+4412345679",
-            "payment_method": "unknown",
-            "card_information": "unknown",
-            "balance": 99.99,
-            "account_status": "deleted"
-        }
-    ]
-}
-```
-
 
 ## Available Scripts
 

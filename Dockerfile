@@ -18,4 +18,6 @@ COPY ./api ./api
 
 COPY ./views ./views
 
+COPY ./public ./public
+
 CMD [ "npm", "start" ]

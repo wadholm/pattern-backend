@@ -123,3 +123,4 @@ dump/
 # config.json
 # sendgrid.env
 # sendgrid.env
+.DS_Store

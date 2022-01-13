@@ -168,7 +168,6 @@ describe('Trips model', () => {
                     res.should.have.status(200);
                     res.body.should.be.an("object");
                     res.body.should.have.property("trip");
-                    console.log(tripId);
                     done();
                 });
         });

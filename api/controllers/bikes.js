@@ -72,6 +72,11 @@ exports.bikes_get_bike = (req, res) => {
 };
 
 exports.bikes_add_bike = (req, res) => {
+    if (!req.body.city_id) {
+        return res.status(401).json({
+            message: "Required city is missing."
+        });
+    }
     const bike = new Bike({
         _id: new mongoose.Types.ObjectId(),
         city_id: req.body.city_id,
@@ -83,6 +88,13 @@ exports.bikes_add_bike = (req, res) => {
         coordinates: {
             lat: req.body.lat,
             long: req.body.long
+        },
+        latest_trip: {
+            average_speed: 0,
+            distance: 0,
+            price: 0,
+            charge_id: null,
+            parking_id: null
         }
     });
 

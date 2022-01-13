@@ -1,0 +1,122 @@
+
+    body {
+        font-family: 'Open Sans', Arial, Helvetica, sans-serif;
+        margin: 0;
+        height: 100%;
+        background-color: #F3F3F3;
+    }
+    nav {
+        background: #297C45;
+        padding: 1.5em 1em;
+    }
+    nav ul {
+        margin: 0 auto;
+        padding: 0;
+    }
+    nav li {
+        list-style-type: none;
+        display: inline-block;
+        margin: 0 10px 0 0;
+    }
+    nav a {
+        color: #fff;
+        font-size: 18px;
+        background: rgba(255,255,255,0.2);
+        text-decoration: none;
+        padding: 10px;
+        display: block;
+        border-radius: 8px;
+    }
+    nav a:hover {
+        background: rgba(255, 255, 255, 0.101);
+    }
+    header {
+        color: #333;
+    }
+    .top {
+        position: fixed;
+        left: 85%;
+        padding: 1em;
+    }
+
+    .top a {
+        color: #297C45;
+        font-size: 18px;
+        text-decoration: none;
+        padding: 10px;
+        display: block;
+        border-radius: 8px;
+    }
+
+    .top a:hover {
+        color: #003E15;
+    }
+
+    h1 {
+        color: #003E15
+    }
+
+    h2, h3 {
+        color: #298e46;
+    }
+
+    main {
+        margin-top: 100px;
+        margin: auto;
+        padding: 1em 2em;
+        min-height: 26em;
+        word-break: break-all;
+    }
+    pre {
+        background: #7DBB92;
+        border-left: 3px solid #297C45;
+        padding: 10px;
+        box-sizing: border-box;
+        margin-bottom: 1.4rem;
+        font-size: 1rem;
+        display: block;
+        overflow-x: auto;
+        color: #191919;
+    }
+    .terms {
+        color: rgb(42, 42, 42);
+    }
+    a {
+        color: #003E15;
+    }
+    .link {
+        text-decoration: none;
+    }
+    .link:hover {
+        text-decoration: underline;
+    }
+    input {
+        padding: 0.5em;
+        margin: 0.5em 0;
+    }
+    input[type=submit] {
+        border: none;
+        color: #fff;
+        font-size: 18px;
+        background: #297C45;
+        text-decoration: none;
+        padding: 10px 12px;
+        display: block;
+        border-radius: 8px;
+        width: 160px;
+    }
+    input[type=submit]:hover {
+        border: none;
+        color: #fff;
+        font-size: 18px;
+        background: #297c45b4;
+        text-decoration: none;
+        padding: 10px 12px;
+        display: block;
+        border-radius: 8px;
+    }
+    footer {
+        background-color: #003E15;
+        color: white;
+        padding: 3em 1em;
+    }

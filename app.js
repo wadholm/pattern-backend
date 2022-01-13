@@ -26,7 +26,7 @@ const bikes = require('./api/routes/bikes');
 const trips = require('./api/routes/trips');
 const auth = require('./api/routes/auth');
 
-const port = 1337;
+const port = process.env.PORT || 1337;
 
 // don't show the log when it is test
 if (process.env.NODE_ENV !== 'test') {
@@ -51,6 +51,8 @@ app.use(cors({
 app.use((req, res, next) => {
     next();
 });
+
+app.use("/public", express.static('public'));
 
 // Add routes
 app.use('/', index);
@@ -94,7 +96,7 @@ mongoose.connect(
 )
 // Start up server
     .then(() => {
-        app.listen(process.env.PORT || port, () => {
+        app.listen(port, () => {
             console.log(`Pattern API with Mongoose listening on port ${port}!`);
         });
     })

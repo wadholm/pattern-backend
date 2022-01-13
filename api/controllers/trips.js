@@ -100,7 +100,7 @@ exports.trips_start_trip = (req, res) => {
                 user_id: userId,
                 bike_id: bikeId,
                 start_time: new Date,
-                start_coordinates: bike.coordinates // get coordinates from bike position
+                start_coordinates: bike.coordinates
             });
 
             trip.save()

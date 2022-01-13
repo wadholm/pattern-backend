@@ -9,6 +9,9 @@
         <li><a class="link" href="#users">Users</a></li>
         <li><a class="link" href="#admins">Admins</a></li>
         <li><a class="link" href="#bikes">Bikes</a></li>
+        <li><a class="link" href="#cities">Cities</a></li>
+        <li><a class="link" href="#prices">Prices</a></li>
+        <li><a class="link" href="#trips">Trips</a></li>
     </ul>
 
 <section id="api">
@@ -28,58 +31,6 @@
 }
 </pre>
 </section>
-
-
-<h2>cities</h2>
-
-<p>A city has the following attributes:</p>
-
-<pre>
-_id
-name
-coordinates
-charge_stations
-parking_stations
-</pre>
-
-<h2>parking_stations and charge_stations</h2>
-
-<p>A station has the following attributes:</p>
-
-<pre>
-_id
-name
-coordinates
-</pre>
-
-<h2>trips</h2>
-
-<p>A trip has the following attributes:</p>
-
-<pre>
-_id
-user_id
-bike_id
-start_time
-start_coordinates
-average_speed
-distance
-price
-stop_time
-stop_coordinates
-</pre>
-
-<h2>prices</h2>
-
-<p>A price has the following attributes:</p>
-
-<pre>
-_id
-starting_fee
-price_per_minute
-penalty_fee
-discount
-</pre>
 
 <h2>api_users</h2>
 
@@ -613,9 +564,671 @@ latest_trip
 
 <pre>
 {
-    "message": "Maintenance succesfully updated",
+    "message": "Maintenance succesfully updated"
 }
 </pre>
+</section>
+
+<section id="cities">
+
+<h2>Cities</h2>
+
+<p>A city has the following attributes:</p>
+
+<pre>
+_id
+name
+coordinates
+charge_stations
+parking_stations
+</pre>
+
+<h2>parking_stations and charge_stations</h2>
+
+<p>A station has the following attributes:</p>
+
+<pre>
+_id
+name
+coordinates
+</pre>
+
+
+<h2>To get all cities:</h2>
+
+<pre>GET /v1/cities</pre>
+
+<p>Result:</p>
+
+<pre>
+{
+    "count": 1,
+    "cities": [
+        {
+            "_id": "61a76026bb53f131584de9b1",
+            "name": "Central City",
+            "coordinates": {
+                "northwest": {
+                    "lat": 56.193013,
+                    "long": 15.559232
+                },
+                "southeast": {
+                    "lat": 56.152144,
+                    "long": 15.634511
+                }
+            },
+            "charge_stations": [
+                {
+                    "_id": "61a93ba5e146af1a898bdb33",
+                    "name": "Central station",
+                    "coordinates": {
+                        "northwest": {
+                            "lat": 56.181709,
+                            "long": 15.590148
+                        },
+                        "southeast": {
+                            "lat": 56.180697,
+                            "long": 15.592087
+                        }
+                    }
+                }
+            ],
+            "parking_stations": [
+                {
+                    "_id": "61a760deeefc1bd24ba91645",
+                    "name": "Central harbor",
+                    "coordinates": {
+                        "northwest": {
+                            "lat": 56.167131,
+                            "long": 15.591912
+                        },
+                        "southeast": {
+                            "lat": 56.166385,
+                            "long": 15.593056
+                        }
+                    }
+                }
+            ]
+        }
+    ]
+}
+</pre>
+
+
+<h2>To get city by id:</h2>
+
+<pre>GET /v1/cities/:city_id</pre>
+
+<p>Result:</p>
+
+<pre>
+{
+    "city": {
+        "_id": "61a76026bb53f131584de9b1",
+        "name": "Central City",
+        "coordinates": {
+            "northwest": {
+                "lat": 56.193013,
+                "long": 15.559232
+            },
+            "southeast": {
+                "lat": 56.152144,
+                "long": 15.634511
+            }
+        },
+        "charge_stations": [
+            {
+                "_id": "61a93ba5e146af1a898bdb33",
+                "name": "Central station",
+                "coordinates": {
+                    "northwest": {
+                        "lat": 56.181709,
+                        "long": 15.590148
+                    },
+                    "southeast": {
+                        "lat": 56.180697,
+                        "long": 15.592087
+                    }
+                }
+            }
+        ],
+        "parking_stations": [
+            {
+                "_id": "61a760deeefc1bd24ba91645",
+                "name": "Central harbor",
+                "coordinates": {
+                    "northwest": {
+                        "lat": 56.167131,
+                        "long": 15.591912
+                    },
+                    "southeast": {
+                        "lat": 56.166385,
+                        "long": 15.593056
+                    }
+                }
+            }
+        ]
+    }
+}
+</pre>
+
+<h2>To get station by city:</h2>
+
+<pre>GET /v1/city/stations/:city_id</pre>
+
+<p>Optional parameters:</p>
+
+<pre>
+station_type
+</pre>
+
+<p>Result:</p>
+
+<pre>
+{
+    "stations": {
+        "charge_stations": [
+            {
+                "_id": "61a93ba5e146af1a898bdb33",
+                "name": "Central station",
+                "coordinates": {
+                    "northwest": {
+                        "lat": 56.181709,
+                        "long": 15.590148
+                    },
+                    "southeast": {
+                        "lat": 56.180697,
+                        "long": 15.592087
+                    }
+                }
+            }
+        ],
+        "parking_stations": [
+            {
+                "_id": "61a760deeefc1bd24ba91645",
+                "name": "Central harbor",
+                "coordinates": {
+                    "northwest": {
+                        "lat": 56.167131,
+                        "long": 15.591912
+                    },
+                    "southeast": {
+                        "lat": 56.166385,
+                        "long": 15.593056
+                    }
+                }
+            }
+        ]
+    }
+}
+</pre>
+
+<h2>To get station by station:</h2>
+
+<pre>GET /v1/city/station/:station_id</pre>
+
+<p>Required parameters:</p>
+
+<pre>
+city_id
+station_type
+</pre>
+
+<p>Result:</p>
+
+<pre>
+{
+    "station": {
+        "_id": "61a93ba5e146af1a898bdb33",
+        "name": "Central Station",
+        "coordinates": {
+            "northwest": {
+                "lat": 56.181709,
+                "long": 15.590148
+            },
+            "southeast": {
+                "lat": 56.180697,
+                "long": 15.592087
+            }
+        }
+    }
+}
+</pre>
+
+
+<h2>Add a city:</h2>
+
+<pre>POST /v1/cities</pre>
+
+<p>Required parameters:</p>
+
+<pre>
+name
+</pre>
+
+<p>Optional parameters:</p>
+
+<pre>
+coordinates
+charge_stations
+parking_stations
+</pre>
+
+<p>Result:</p>
+
+<pre>
+{
+    "message": "Succesfully added a city",
+    "addedCity": {
+        "name": "Central City",
+        "coordinates": {
+            "northwest": {
+                    "lat": 59.405848,
+                    "long": 13.502490
+                },
+            "southeast": {
+                    "lat": 59.387455,
+                    "long": 13.535529
+            }
+        }
+    }
+}
+</pre>
+
+
+<h2>To update a city by id:</h2>
+
+<pre>PATCH /v1/cities/:city_id</pre>
+
+<p>Example:</p>
+
+<pre>[
+    {"propName": "name", "value": "Super Central City"}
+]</pre>
+
+<p>Result:</p>
+
+<pre>
+{
+    "message": "City succesfully updated",
+}
+</pre>
+
+<h2>Add a station:</h2>
+
+<pre>POST /v1/cities/:city_id</pre>
+
+<p>Required parameters:</p>
+
+<pre>
+station_type
+name
+</pre>
+
+<p>Optional parameters:</p>
+
+<pre>
+coordinates
+</pre>
+
+<p>Result:</p>
+
+<pre>
+{
+    "message": "Succesfully added a station",
+    "updatedStations": {
+        "parking_stations": [
+            {
+                "_id": "61a760deeefc1bd24ba91645",
+                "name": "Central harbor",
+                "coordinates": {
+                    "northwest": {
+                        "lat": 56.167131,
+                        "long": 15.591912
+                    },
+                    "southeast": {
+                        "lat": 56.166385,
+                        "long": 15.593056
+                    }
+                }
+            },
+            {
+                "_id": "61a760deeefc1bd24ba91646",
+                "name": "New Station",
+                "coordinates": {
+                    "northwest": {
+                        "lat": 56.167131,
+                        "long": 15.591912
+                    },
+                    "southeast": {
+                        "lat": 56.166385,
+                        "long": 15.593056
+                    }
+                }
+            }
+        ]
+    }
+}
+</pre>
+
+
+<h2>To update a station by id:</h2>
+
+<pre>PATCH /v1/cities/station/:station_id</pre>
+
+<p>Required parameters:</p>
+
+<pre>
+city_id
+station_type
+</pre>
+
+<p>Optional parameters:</p>
+
+<pre>
+coordinates
+</pre>
+
+<p>Example:</p>
+
+<pre>{
+    "city_id": "61a8fd85ea20b50150945887",
+    "station_type": "charge_stations",
+    "coordinates": {
+        "northwest": {
+                "lat": 59.389509,
+                "long": 13.526023
+            },
+        "southeast": {
+                "lat": 59.389340,
+                "long": 13.526291
+        }
+    }
+}</pre>
+
+<p>Result:</p>
+
+<pre>
+{
+    "message": "Station succesfully updated",
+}
+</pre>
+
+</section>
+
+<section id="prices">
+
+<h2>Prices</h2>
+
+<p>A price has the following attributes:</p>
+
+<pre>
+_id
+starting_fee
+price_per_minute
+penalty_fee
+discount
+</pre>
+
+<h2>To get all prices:</h2>
+
+<pre>GET /v1/prices</pre>
+
+<p>Result:</p>
+
+<pre>
+{
+    "count": 1,
+    "prices": [
+        {
+            "_id": "61a7c13abc12788d197715e6",
+            "starting_fee": 10,
+            "price_per_minute": 3,
+            "penalty_fee": 50,
+            "discount": 0.1
+        }
+    ]
+}
+</pre>
+
+<h2>Add a price:</h2>
+
+<pre>POST /v1/prices</pre>
+
+<p>Optional parameters:</p>
+
+<pre>
+starting_fee
+price_per_minute
+penalty_fee
+discount
+</pre>
+
+<p>Result:</p>
+
+<pre>
+{
+    "message": "Succesfully added a price",
+    "addedPrice":   {
+        "_id": "61a7c13abc12788d197715e6",
+        "starting_fee": 10,
+        "price_per_minute": 3,
+        "penalty_fee": 50,
+        "discount": 0.1
+    }
+}
+</pre>
+
+
+<h2>To update a price by id:</h2>
+
+<pre>PATCH /v1/prices/:price_id</pre>
+
+<p>Example:</p>
+
+<pre>[
+    {"propName": "starting_fee", "value": 15}
+]</pre>
+
+<p>Result:</p>
+
+<pre>
+{
+    "message": "Price succesfully updated",
+}
+</pre>
+
+</section>
+<section id="trips">
+
+<h2>Trips</h2>
+<p>A trip has the following attributes:</p>
+
+<pre>
+_id
+user_id
+bike_id
+start_time
+start_coordinates
+average_speed
+distance
+price
+stop_time
+stop_coordinates
+</pre>
+
+<h2>To get all trips:</h2>
+
+<pre>GET /v1/trips</pre>
+
+<p>Result:</p>
+
+<pre>
+{
+    "count": 1,
+    "trips": [
+        {
+            "_id": "61a8ce5cd84acdc3bb04d155",
+            "user_id": "619f6ee3d0b6c914a2b58514",
+            "bike_id": "61a8aec803d845a108c53774",
+            "start_time": "2021-12-02T13:47:08.007Z",
+            "start_coordinates": {
+                "lat": 56.166382,
+                "long": 15.593662
+            },
+            "average_speed": 15,
+            "distance": 800,
+            "price": 83,
+            "stop_coordinates": {
+                "lat": 56.162077,
+                "long": 15.58989
+            },
+            "stop_time": "2021-12-02T14:14:06.149Z"
+        },
+    ]
+}
+</pre>
+
+<h2>To get trips per user:</h2>
+
+<pre>GET /v1/trips/user/user_id</pre>
+
+<p>Result:</p>
+
+<pre>
+{
+    "count": 1,
+    "trips": [
+        {
+            "_id": "61a8ce5cd84acdc3bb04d155",
+            "user_id": "619f6ee3d0b6c914a2b58514",
+            "bike_id": "61a8aec803d845a108c53774",
+            "start_time": "2021-12-02T13:47:08.007Z",
+            "start_coordinates": {
+                "lat": 56.166382,
+                "long": 15.593662
+            },
+            "average_speed": 15,
+            "distance": 800,
+            "price": 83,
+            "stop_coordinates": {
+                "lat": 56.162077,
+                "long": 15.58989
+            },
+            "stop_time": "2021-12-02T14:14:06.149Z"
+        },
+    ]
+}
+</pre>
+
+<h2>To get trip by id:</h2>
+
+<pre>GET /v1/trips/trip_id</pre>
+
+<p>Result:</p>
+
+<pre>
+{
+    "trip": {
+        "_id": "61a8ce5cd84acdc3bb04d155",
+        "user_id": "619f6ee3d0b6c914a2b58514",
+        "bike_id": "61a8aec803d845a108c53774",
+        "start_time": "2021-12-02T13:47:08.007Z",
+        "start_coordinates": {
+            "lat": 56.166382,
+            "long": 15.593662
+        },
+        "average_speed": 15,
+        "distance": 800,
+        "price": 83,
+        "stop_coordinates": {
+            "lat": 56.162077,
+            "long": 15.58989
+        },
+        "stop_time": "2021-12-02T14:14:06.149Z"
+    }
+}
+</pre>
+
+<h2>Start trip:</h2>
+
+<pre>POST /v1/trips</pre>
+
+<p>Required parameters:</p>
+
+<pre>
+user_id
+bike_id
+</pre>
+
+<p>Result:</p>
+
+<pre>
+{
+    "message": "Succesfully started trip",
+    "startedTrip": {
+        "_id": "61e047f429fc189b46970e8d",
+        "user_id": "619f6ee3d0b6c914a2b58514",
+        "bike_id": "61a8aec803d845a108c53774",
+        "start_time": "2022-01-13T15:40:36.186Z",
+        "start_coordinates": {
+            "lat": 59.320536,
+            "long": 18.062855499999998
+        },
+        "__v": 0
+    }
+}
+</pre>
+
+
+<h2>To update trip by id:</h2>
+
+<pre>PATCH /v1/trip/:trip_id</pre>
+
+<p>Example:</p>
+
+<pre>[
+    {"propName": "average_speed", "value": 15}
+]</pre>
+
+<p>Result:</p>
+
+<pre>
+{
+    "message": "Trip succesfully updated",
+}
+</pre>
+
+<h2>End trip:</h2>
+
+<pre>POST /v1/trips/end/trip_id</pre>
+
+<p>Result:</p>
+
+<pre>
+{
+    "message": "Trip ended",
+    "endedTrip": {
+        "_id": "61e047f429fc189b46970e8d",
+        "user_id": "619f6ee3d0b6c914a2b58514",
+        "bike_id": "61a8aec803d845a108c53774",
+        "start_time": "2022-01-13T15:40:36.186Z",
+        "start_coordinates": {
+            "lat": 59.320536,
+            "long": 18.062855499999998
+        },
+        "average_speed": 15,
+        "distance": 200,
+        "price": 22,
+        "stop_coordinates": {
+            "lat": 59.320536,
+            "long": 18.062855499999998
+        },
+        "stop_time": "2022-01-13T15:49:51.270Z"
+    }
+}
+</pre>
+
 </section>
 
 
